@@ -17,7 +17,7 @@ git commit -m "build $VERSION"
 git push origin gh-release
 
 # create a ZIP archive of the dist files
-zip -r $NAME-v$VERSION.zip dist
+(cd .. ; zip -r $NAME-v$VERSION.zip maintenance-blueportail)
 
 # run gh-release to create the tag and push release to github
 gh-release --assets $NAME-v$VERSION.zip
