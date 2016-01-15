@@ -23,7 +23,7 @@ mkdir -p dist
 (cd .. ; zip -r maintenance-blueportail/dist/$NAME-v$VERSION.zip maintenance-blueportail --exclude '*.git*' --exclude '*node_modules*' --exclude '*~')
 
 # run gh-release to create the tag and push release to github
-gh-release --assets dist/$NAME-v$VERSION.zip
+./node_modules/.bin/gh-release --assets dist/$NAME-v$VERSION.zip
 
 # checkout master and delete release branch locally and on GitHub
 git checkout master
