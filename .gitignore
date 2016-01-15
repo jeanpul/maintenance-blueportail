@@ -1,6 +1,11 @@
 # Mac
 .DS_Store
 
+dist
+
 #Node
 node_modules
+
+#npm
+npm-debug.log
 

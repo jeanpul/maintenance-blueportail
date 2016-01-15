@@ -17,10 +17,13 @@ git commit -m "build $VERSION"
 git push origin gh-release
 
 # create a ZIP archive of the dist files
-(cd .. ; zip -r $NAME-v$VERSION.zip maintenance-blueportail)
+mkdir -p dist
+# clean previous archives
+(cd dist ; rm -f *.zip )
+(cd .. ; zip -r maintenance-blueportail/dist/$NAME-v$VERSION.zip maintenance-blueportail --exclude '*.git*' --exclude '*node_modules*' --exclude '*~')
 
 # run gh-release to create the tag and push release to github
-gh-release --assets $NAME-v$VERSION.zip
+gh-release --assets dist/$NAME-v$VERSION.zip
 
 # checkout master and delete release branch locally and on GitHub
 git checkout master
