@@ -1,0 +1,23 @@
+{
+  "name": "maintenance-blueportail",
+  "version": "1.0.0",
+  "description": "Outils de maintenance PHP pour BluePortail",
+  "main": "src/Config.inc",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "scripts/release.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeanpul/maintenance-blueportail.git"
+  },
+  "author": "Fabien Pélisson",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jeanpul/maintenance-blueportail/issues"
+  },
+  "homepage": "https://github.com/jeanpul/maintenance-blueportail#readme",
+  "devDependencies": {
+      "gh-release": "^2.0.2"
+  }
+}
