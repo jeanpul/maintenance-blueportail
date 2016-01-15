@@ -4,7 +4,7 @@
   "description": "Outils de maintenance PHP pour BluePortail",
   "main": "src/Config.inc",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Warning: no test specified\" && exit 0",
     "release": "scripts/release.sh"
   },
   "repository": {
