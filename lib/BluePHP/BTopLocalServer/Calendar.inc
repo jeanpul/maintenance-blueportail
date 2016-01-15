@@ -19,6 +19,27 @@ class Calendar extends ModuleProcessing
 			 "testts, ts, testte, te from Calendars, CalData where " .
 			 "Calendars.id = CalData.cal order by calId, pri");
   }
+
+  public function createCalendar($params)
+  {
+    if(!isset($params["id"]))
+      {
+	$newCalId = 0;
+	$cals = $this->Select("id from Calendars order by id desc limit 1");
+	if(count($cals) > 0)
+	  {
+	    $newCalId = $cals[0]["id"] + 1;
+	  }
+	$params["id"] = $newCalId;
+      }
+    parent::QueryNoReturn("insert into Calendars values($newCalId, '" .
+			  $params["name"] . "')");
+    return $params;
+  }
+
+  public function addCalendarRule($params)
+  {
+  }
 }
 
 ?>

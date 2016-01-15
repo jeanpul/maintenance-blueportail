@@ -32,6 +32,8 @@ try {
       throw new Exception("Identifiant capteur $ref non trouvé");
     }
 
+  $bpl->setClientId($clientId);
+
   include_once("BluePHP/BTopLocalServer/FlowCountingProcessing.inc");
   $fcp = new FlowCountingProcessing();
 

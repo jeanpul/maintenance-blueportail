@@ -33,6 +33,8 @@ try {
       throw new Exception("Identifiant capteur $ref non trouvé");
     }
 
+  $bpl->setClientId($clientId);
+
   include_once("BluePHP/BTopLocalServer/Calendar.inc");
 
   $cal = new Calendar();

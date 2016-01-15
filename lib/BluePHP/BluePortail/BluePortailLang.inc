@@ -48,6 +48,12 @@ class BluePortailLang
       $this->configDB->connectToDB();
     }
 
+  public function setClientId($clientId)
+  {
+    $_REQUEST = array();
+    $_REQUEST["clientBluePortail"] = $clientId;  
+  }
+
   /**
    * \brief call any method of the BluePortailLang class through its symbolic name
    *

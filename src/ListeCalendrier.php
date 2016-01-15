@@ -12,6 +12,20 @@ try {
       exit(1);
     }
 
+  include_once("BluePHP/BluePortail/BluePortailLang.inc");
+
+  $bpl = new BluePortailLang(array());
+
+  $clientId = $argv[1];
+  $clientIdInfo = $bpl->getClientData(array("clientId" => $clientId));
+
+  if(!count($clientIdInfo))
+    {
+      throw new Exception("Client $clientId non trouvé");
+    }
+
+  $bpl->setClientId($clientId);
+
   include_once("BluePHP/BTopLocalServer/Calendar.inc");
   
   $cal = new Calendar();
