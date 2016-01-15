@@ -1,0 +1,6 @@
+
+<?php if($this->isEnabled()): ?>
+<a id='configuration' href='/cgi-bin/Sensor/choiceConfiguration.cgi'>Channels configuration</a>
+<?php else: ?>
+<span id='configurationOff'>Channels configuration</span>
+<?php endif; ?>

@@ -1,0 +1,31 @@
+<?php
+
+include_once("BluePHP/GUI/MenuBarEntry.inc");
+
+$menuElts = array( new MenuBarEntry( "ossettings",
+				     array( "address" => "ossettings" ),
+				     _("OS Settings")),
+		   new MenuBarEntry( "configuration",
+				     array ( "address" => "configuration" ),
+				     _("Configuration")),
+		   new MenuBarEntry( "maintenance",
+				     array ( "address" => "maintenance" ),
+				     _("Maintenance")),
+		   new MenuBarEntry( "dashboard",
+				     array( "address" => "dashboard" ),
+				     _("Dashboard"))
+		   );
+?>
+
+<div id="<?php echo $this->getId(); ?>" class="TabsMenu">
+<ul class="navigation">
+  <?php      
+  foreach($menuElts as $elt)
+    {
+      echo "<li>";
+      echo $elt->render(); 
+      echo "</li>\n";
+    }
+  ?>
+</ul>
+</div>

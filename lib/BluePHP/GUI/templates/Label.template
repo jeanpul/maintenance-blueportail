@@ -1,0 +1,3 @@
+<h1 class="Label" id="<?php $this->getId(); ?>">
+<?php echo $this->getText(); ?>
+</h1>

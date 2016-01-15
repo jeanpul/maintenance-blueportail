@@ -1,0 +1,21 @@
+<?php
+
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+$bsa = new BSAddresses();
+
+$p = $this->getParams();
+$menuAddress = $p["address"];
+
+$table = new MenuTable("", 
+		       array( new MenuBarEntry('updateimport',
+					       array( "address"=> $menuAddress . ".load" ),
+					       $bsa->getLabel($menuAddress . ".load")),
+			      new MenuBarEntry('updatecheck',
+					       array( "address" => $menuAddress . ".list" ),
+					       $bsa->getLabel($menuAddress . ".list"))
+			      ),
+		       null);    
+$table->render();
+
+?>

@@ -1,0 +1,40 @@
+<?php
+
+$cname = $this->getClass();
+$idgraph = $cname . "Graph-" . $this->getId();
+
+$jsName = "/BlueCountGUI/Dashboards/js/$cname.js";
+$cssName = "/BlueCountGUI/Dashboards/styles/$cname.css";
+
+$params = $this->getPanel();
+$label = $params["label"];
+$numId = $params["numId"];
+
+$idvalue = $cname . "Value-" . $this->getId() . "_" . $numId;
+
+$classes = "Panel Panel-" . $params["size"] . " Panel-" . $params["category"];
+
+?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+
+<div id="<?php echo $cname; ?>Panel" class="<?php echo $classes; ?>">
+  <div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+    <div class="Panel-title"><img src="/BlueSystem/styles/time_gauge.png"> Waiting time in queues</div>
+    <div class="Panel-namearea"><?php echo $label; ?></div>
+  </div>
+  <div class="Panel-graph">
+    <div id="<?php echo $idgraph; ?>" class="graph"></div> 
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready( function() {
+      Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	  WaitingTimeSLA.Init({"id": <?php echo $numId; ?>,
+		"idgraph": "<?php echo $idgraph; ?>",
+		  "idvalue": "<?php echo $idvalue; ?>"
+		  });
+	});
+    });
+</script>

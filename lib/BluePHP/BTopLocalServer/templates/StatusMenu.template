@@ -1,0 +1,31 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", 
+		       array( new MenuEntryButton('logs',
+						  $bsa->getLabel("qms_main.status.logs"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_main.status.logs")),
+							 "text" => $bsa->getInfo("qms_main.status.logs")
+							 )
+						  ),	 
+			      new MenuEntryButton('statusdb',
+						  $bsa->getLabel("qms_main.status.statusdb"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_main.status.statusdb")),
+							 "text" => $bsa->getInfo("qms_main.status.statusdb")
+							 )
+						  ),
+			      new MenuBarEntry('statuscom',
+					       array("address" => "qms_main.status.statuscom"),
+					       $bsa->getLabel("qms_main.status.statuscom"),
+					       array( "text" => $bsa->getInfo("qms_main.status.statuscom") )
+					       )
+			      ),		  
+		       null);
+$table->render();
+
+?>

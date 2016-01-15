@@ -1,0 +1,50 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+include_once("BluePHP/GUI/MenuEntryWindow.inc");
+
+$bsa = new BSAddresses();
+$bs = new BlueSystem();
+$bck = new BackupRestore();
+
+$table = new MenuTable("", 
+		       array( new MenuEntryButton('network',
+					       $bsa->getLabel("ossettings.networkconf"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("ossettings.networkconf")),
+							 "text" => $bsa->getInfo("ossettings.networkconf"))
+						  ),
+			      new MenuEntryButton('time',
+						  $bsa->getLabel("ossettings.time"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("ossettings.time")),
+							 "text" => $bsa->getInfo("ossettings.time"))
+						  ),
+			      new MenuEntryButton('reboot',
+						  $bsa->getLabel("ossettings.reboot"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("ossettings.reboot")),
+							 "text" => $bsa->getInfo("ossettings.reboot"))
+						  ),
+			      new MenuEntryButton('security',
+					       $bsa->getLabel("ossettings.security"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("ossettings.security")),
+							 "text" => $bsa->getInfo("ossettings.security"))
+						  ),
+			      new MenuEntryButton('harddisk',
+						  $bsa->getLabel("ossettings.hdinstall"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("ossettings.hdinstall")),
+							 "text" => $bsa->getInfo("ossettings.hdinstall"),
+							 "enabled" => $bs->isLive()
+							 )
+						  ),
+			      new MenuEntryButton('clientid',
+						  $bsa->getLabel("ossettings.clientid"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("ossettings.clientid")),
+							 "text" => $bsa->getInfo("ossettings.clientid")
+							 )
+						  )
+			      ),
+		       null);    
+$table->render();
+
+?>

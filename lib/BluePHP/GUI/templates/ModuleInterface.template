@@ -1,0 +1,25 @@
+<?php
+
+$params = $this->getParams();
+
+if($params["action"] == "list")
+{
+  $this->getTableList(); 
+}
+else if($params["action"] == "view")
+  {
+    if($params["action"] == "view")
+      {
+	$params = array_merge($params, $this->getModule()->getEntry($params));
+      }
+    echo $this->getTableView($params); 
+  }
+else 
+  {
+    if($params["action"] == "edit")
+      {
+	$params = array_merge($params, $this->getModule()->getEntry($params));
+      }
+    $this->getTableInput($params);
+  }
+?>

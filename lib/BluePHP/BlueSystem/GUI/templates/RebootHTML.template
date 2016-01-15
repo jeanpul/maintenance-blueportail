@@ -1,0 +1,61 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogSubmit.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogInfo.inc");
+
+$params = $this->getParams();
+
+if($params["step"] == 0)
+  {
+    $str = "<h2>Rebooting the system will stop all current applications.</h2>";
+    $str .= createInputHidden("step", "1");
+    $dialog = new BSDialogSubmit("bs_reboot",
+				 array( "title" => "System reboot",
+					"msg" => $str ));
+    $dialog->eventSubmit(BS_eventRender("BlueSystem.RebootHTML", "?step=1"));
+    $dialog->render();
+  }
+else if($params["step"] == 1)
+  {
+    $ns = 120;
+    $str = "The system is now restarting. You will be automatically redirected after" . 
+      " <span id='ct_time'>$ns</span> seconds.";
+    $dialog = new BSDialogInfo("bs_reboot_done",
+			       array( "title" => "System restarting...",
+				      "msg" => $str));
+    $dialog->setModal(true);
+    $dialog->setDraggable(false);
+    $dialog->setResizable(false);
+    $dialog->setClosable(false);
+    $dialog->render();
+?>
+
+<script type="text/javascript">
+   $(document).ready( function() {
+       $(function() {
+	   var count = <?php echo $ns; ?>;
+	   countdown = setInterval(function() {
+	       count--;
+	       $("#ct_time").html(count);
+	       if(count == 0) {
+		 clearInterval(countdown);
+		 <?php echo $dialog->eventClose(); ?>
+		 window.location = "/";
+	       }
+	     },
+	     1000);
+	 });
+       <?php echo BS_eventRender("BlueSystem.RebootHTML", "?step=2"); ?>
+     });
+</script>
+
+
+<?php
+  }
+else if($params["step"] == 2)
+  {
+    $this->doReboot();
+  }
+
+?>

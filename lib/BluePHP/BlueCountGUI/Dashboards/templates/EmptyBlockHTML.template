@@ -1,0 +1,9 @@
+<?php
+
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+?>
+
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+</div>

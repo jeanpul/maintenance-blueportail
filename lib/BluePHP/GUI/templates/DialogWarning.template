@@ -1,0 +1,5 @@
+<div class="warning" id="<?php echo $this->getId(); ?>" title="<?php echo $this->getTitle(); ?>">
+<p>
+<?php echo $this->getMsg(); ?>
+</p>
+</div>

@@ -1,0 +1,112 @@
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogSubmit.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogInfo.inc");
+include_once("BluePHP/BlueSystem/NetworkConfiguration.inc");
+
+$params = $this->getParams();
+
+if($params["step"] == 0)
+  {
+    $module = new NetworkConfiguration();
+    $params = array_merge($module->getEntry($params),
+			  $params);
+
+    $str = "<form id='NetworkConfForm'>\n";
+    $str .= "<table>\n";
+    $str .= createTableRow( array( _("Device"),
+				   createInputText($params["NETDEV"],
+						   array( "name" => "NETDEV",
+							  "readonly" => true,
+							  "maxlength" => 8 ))));
+    $str .= createTableRow(array( _("IP address"),
+				  createInputText($params["IPADDRESS"],
+						  array("name" => "IPADDRESS",
+							"size" => 16,
+							"maxlength" => 16) )));
+    $str .= createTableRow(array( _("Mask"),
+				  createInputText($params["IPMASK"],
+						  array("name" => "IPMASK",
+							"size" => 16,
+							"maxlength" => 16) )));
+    $str .= createTableRow(array( _("Gateway"),
+				  createInputText($params["IPGATEWAY"],
+						  array("name" => "IPGATEWAY",
+							"size" => 16,
+							"maxlength" => 16) )));
+    $str .= createTableRow(array( _("DNS"),
+				  createInputText($params["IPDNS"],
+						  array("name" => "IPDNS",
+							"size" => 16,
+							"maxlength" => 16) )));
+    if(!is_null($params["HWADDR"]))
+      {
+	$str .= createInputHidden("HWADDR", $params["HWADDR"]);
+        $str .= createInputHidden("MACADDRTEST", $params["HWADDR"]);	
+      }
+     else
+      {
+        $str .= createInputHidden("MACADDRTEST", "admin");	
+      }
+
+    $str .= createInputHidden("step", "1");
+    $str .= "</table>\n";
+    $str .= "</form>\n";
+
+    $dialog = new BSDialogSubmit("NetworkConf",
+				 array( "title" => "Network configuration",
+					"msg" => $str));
+    $dialog->eventSubmit(BS_eventRenderWithForm("BlueSystem.NetworkConfigurationHTML", $this->getId(),
+						"NetworkConfForm"));
+    $dialog->render();
+  }
+else if($params["step"] == 1)
+  {
+    $params["step"] = 2;
+    $url = "http://" . $params["IPADDRESS"];
+    $ns = 10;
+    $str = "The system will be set with a new network configuration." . 
+      " You will be automatically redirected after" . 
+      " <span id='ct_time'>$ns</span> seconds.";
+    $dialog = new BSDialogInfo("NetworkConf_done",
+			       array( "title" => "Applying network configuration...",
+				      "msg" => $str));
+    $dialog->setModal(true);
+    $dialog->setDraggable(false);
+    $dialog->setResizable(false);
+    $dialog->setClosable(false);
+    $dialog->render();
+?>
+
+<script type="text/javascript">
+   $(document).ready( function() {
+       $(function() {
+	   var count = <?php echo $ns; ?>;
+	   countdown = setInterval(function() {
+	       count--;
+	       $("#ct_time").html(count);
+	       if(count == 0) {
+		 clearInterval(countdown);
+		 <?php echo $dialog->eventClose(); ?>
+		 window.location = "<?php echo $url; ?>";
+	       }
+	     },
+	     1000);
+	 });
+       <?php echo BS_eventRender("BlueSystem.NetworkConfigurationHTML", $params); ?>
+     });
+</script>
+
+<?php
+    }
+else if($params["step"] == 2)
+  {
+    $module = new NetworkConfiguration();
+    $netParams = $module->getEntry($params);
+    $module->setEntry($params);    
+  }
+
+?>
+

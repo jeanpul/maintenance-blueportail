@@ -1,0 +1,54 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+
+$params = $this->getPanel();
+$cname = $this->getClass();
+$idgraph = $cname . "Graph_" . $this->getId();
+$idvalue1 = $this->getClass() . "Value-" . $this->getId() . "_" . $params["numId1"];
+$idvalue2 = $this->getClass() . "Value-" . $this->getId() . "_" . $params["numId2"];
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$params = array_merge( array( "idvalue1" => $idvalue1,
+			      "idvalue2" => $idvalue2,
+			      "container" => $idgraph,
+			      "TimeStr" => strftime("%Y%m%d000000") 
+			      ), 
+		       $params );
+
+$jsonOptions = json_encode($params , JSON_NUMERIC_CHECK); 
+
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+  <div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+    <div class="Panel-title"><img src="/BlueSystem/styles/time_gauge.png"> Wait time</div>
+    <div class="Panel-namearea"><?php echo $params["label"]; ?></div>
+  </div>
+  <div class="Panel-graph">
+    <div id="<?php echo $idgraph; ?>" class="graph"></div>
+  </div>
+  <div class="Panel-curr-value">
+    <div class="curr-value-data">
+    <span class="first" style="color: <?php echo $params['serieColor1']; ?>">
+  <span><?php echo $params["serieName1"]; ?></span>
+    <span id="<?php echo $idvalue1; ?>"></span>
+    <small>min</small>
+    </span>
+    <span class="second" style="color: <?php echo $params['serieColor2']; ?>">
+  <span><?php echo $params["serieName2"]; ?></span>
+    <span id="<?php echo $idvalue2; ?>"></span>
+    <small>min</small>
+    </span>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready( function() {
+      Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	  WaitingTimeCompHistory.Init(<?php echo $jsonOptions; ?>);
+	});
+    });
+</script>

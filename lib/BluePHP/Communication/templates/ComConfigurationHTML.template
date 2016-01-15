@@ -1,0 +1,68 @@
+<div class="Panel Panel-two Panel-hcenter Panel-blue">
+<div class="Panel-namearea">Change communication configuration</div>
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/Communication/ComConfiguration.inc");
+include_once("BluePHP/BlueSystem/GUI/BSForm.inc");
+
+$params = array_merge( array( "step" => 0 ),
+		       $this->getParams() );
+
+if($params["step"] == 0)
+  {
+    $module = new ComConfiguration();
+    $params = array_merge($module->getEntry($params),
+			  $params);
+
+    $str = "<table>\n";
+
+    $str .= createTableRow( array( createCheckBox( array( "name" => "COLLECTVALUES_TOBLUEHTTP",
+							  "value" => "true" ),
+						   $params["COLLECTVALUES_TOBLUEHTTP"] != "false" ),
+				   _("Export count value on BlueHTTP") ));
+
+    $str .= createTableRow( array( _("Server address"),
+				   createInputText( $params["COLLECTVALUES_DEST_SERVER"],
+						    array( "name" => "COLLECTVALUES_DEST_SERVER",
+							   "size" => 32,
+							   "maxlength" => 64) )));
+
+    $str .= createTableRow( array( _("Port"),
+				   createInputText( $params["COLLECTVALUES_DEST_PORT"],
+						    array( "name" => "COLLECTVALUES_DEST_PORT",
+							   "size" => 6,
+							   "maxlength" => 6) )));
+
+    $str .= createTableRow( array( _("Script"),
+				   createInputText( $params["COLLECTVALUES_DEST_SCRIPT"],
+						    array( "name" => "COLLECTVALUES_DEST_SCRIPT",
+							   "size" => 32,
+							   "maxlength" => 64) )));	       
+
+    $str .= createInputHidden("COLLECTVALUES_BLUEHTTP_USE_RESTRICTED", $params["COLLECTVALUES_BLUEHTTP_USE_RESTRICTED"]);
+    $str .= createInputHidden("COLLECTVALUES_BLUEHTTP_USE_RESTRICTED_BY", $params["COLLECTVALUES_BLUEHTTP_USE_RESTRICTED_BY"]);
+    $str .= createInputHidden("COLLECTVALUES_DEST_USE_SSL", $params["COLLECTVALUES_DEST_USE_SSL"]);
+    $str .= createInputHidden("step", "1");
+
+    $str .= "</table>\n";
+
+    $form = new BSForm($this, $str, $params);
+    $form->render();
+  }
+else if($params["step"] == 1)
+  {
+    $module = new ComConfiguration();
+    if(!isset($params["COLLECTVALUES_TOBLUEHTTP"]))
+      {
+	$params["COLLECTVALUES_TOBLUEHTTP"] = "false";
+      }
+    $module->setEntry($params);
+    $str = _("Modification Applied.");
+    echo $str;
+  }
+
+?>
+
+</div>

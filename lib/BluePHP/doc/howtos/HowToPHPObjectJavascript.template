@@ -1,0 +1,51 @@
+<?php
+
+include_once("BluePHP/GUI/Dialog.inc");
+
+?>
+
+<div class="main-title">
+  <h1>How to call PHP objects methods from javascript ?</h1>
+</div>
+
+<div class="section">
+  <h2>Why to do that ?</h2>
+
+<p>
+For our Web based application, most of the time there is a clear frontier between the display part with HTML, CSS, javascript (client/server) and the processing part
+implemented in PHP using OOP. The processing part is hidden, running on the server side and instanciated by objects that generate the display part to the client. These objects
+are on the server side, can directly instantiate and access all the objects of the processing part and everything is going to be ok.
+No the problems arise when we want to provide more interactivity to the application especially when we are looking for events. In that case the PHP that render the Web content must
+insert some code that will be executed on the client side (i.e javascript) afterall. This code cannot access the processing part which is hidden to the client except by using AJAX mechanism.
+So the idea behind this method is to provide a generic way of accessing methods from the classes used for the processing part on the client side.
+</p>
+
+</div>
+
+<div class="section">
+  <h2>How to do that ?</h2>
+
+<p>
+The mechanism is mainly based on the reflexivity of the PHP language, the capacity of the javascript language to manipulate function as 1st order, the JQuery library
+and some conventions.
+</p>
+
+<p>
+</p>
+
+<?php
+
+$d = new Dialog("basecode", "", null);
+$d->setHeader("Simple example that shows how to call a method on a PHP object from javascript");
+$d->setContent(highlight_file("HowToPHPObjectJavascript_basecode.php", true));
+$d->render();
+
+?>
+
+<p>
+The first example shows how to access a PHP class named <b>ComFacturesInterface</b> and then call one of its method <b>render</b>. By convention,
+the PHP filename must have the same name as the class plus the postfixed extension <b>.inc</b>. If the file is stored on some subdirectories, the complete
+path from the Web server root must be specified separated by dots (if the class lie inside the BluePHP library, the <b>BluePHP</b> directory name could be ommited).
+</p>
+
+</div>

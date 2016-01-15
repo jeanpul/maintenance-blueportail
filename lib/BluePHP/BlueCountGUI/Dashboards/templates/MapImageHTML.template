@@ -1,0 +1,22 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+$params = $this->getPanel();
+$mapimg = $this->getImageLink();
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$jsonOptions = json_encode($params , JSON_NUMERIC_CHECK); 
+
+?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+<div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+<div class="Panel-title"><img src="/BlueSystem/styles/zoom.png"> Map</div>
+</div>
+<div class="Panel-map">
+<img alt="<?php echo $params['alt']; ?>" src="<?php echo $mapimg; ?>"></img>
+</div>
+</div>

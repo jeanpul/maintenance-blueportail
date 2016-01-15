@@ -1,0 +1,49 @@
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogSubmit.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogInfo.inc");
+include_once("BluePHP/BlueSystem/Security.inc");
+
+$params = $this->getParams();
+
+if($params["step"] == 0)
+  {
+    $str = '<div class="Panel-namearea">Change administrator password</div>';
+    $str .= '<p class="info">This will change the password only for the admin user.</p>';
+    $str .= '<form id="SecurityAdminForm">';
+    $str .= "<fieldset><p>\n" . 
+      '<label for="password">New password *</label>' . 
+      '<input type="password" id="password" name="password" required="required" minlength="4"/>' . 
+      '</p><p>' . 
+      '<label for="repasswd">Confirm password *</label>' . 
+      '<input type="password" id="repasswd" name="repasswd" data-equals="password"/>' . 
+      '</p>' . 
+      '<input type="hidden" name="step" value="1"/>' .
+      '</fieldset>' .
+      "</form>\n";
+    $dialog = new BSDialogSubmit("SecurityAdmin",
+				 array( "title" => "Admin password",
+					"msg" => $str));
+    $dialog->eventSubmit(BS_eventRenderWithForm("BlueSystem.SecurityAdminHTML", $this->getId(),
+						"SecurityAdminForm"));
+    $dialog->render();
+  }
+else if($params["step"] == 1)
+  {
+    $module = new Security();
+    if(strlen($params["password"]) > 0 and $params["repasswd"] == $params["password"])
+      {
+	$module->setEntry($params);
+      }
+    $dialog = new BSDialogInfo("SecurityAdmin_done",
+			       array( "title" => "Admin password settings",
+				      "msg" => "Password changed."));
+    $dialog->setModal(true);
+    $dialog->setDraggable(false);
+    $dialog->setResizable(false);
+    $dialog->render();
+  }
+?>
+

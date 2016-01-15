@@ -1,0 +1,40 @@
+<?php
+
+include_once("BluePHP/GUI/Dialog.inc");
+
+?>
+
+<div class="main-title">
+  <h1>How to write HTML using the PHP HTML object</h1>
+</div>
+
+<div class="section">
+  <h2>Why to do that ?</h2>
+
+<p>
+</p>
+
+</div>
+
+<div class="section">
+  <h2>How to do that ?</h2>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<?php
+
+$d = new Dialog("basecode", "", null);
+$d->setHeader("Simple example that shows how to create HTML output using fluent PHP");
+$d->setContent(highlight_file("HowToWriteHTML_basecode.php", true));
+$d->render();
+
+?>
+
+<p>
+</p>
+
+</div>

@@ -1,0 +1,8 @@
+<div class="VBox" id="<?php echo $this->getId(); ?>">
+
+<?php foreach($this->getElts() as $elt): ?>
+<?php $elt->render(); ?>
+<?php endforeach; ?>
+
+</div>
+

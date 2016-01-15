@@ -1,0 +1,34 @@
+<?php
+
+include_once("BluePHP/BlueProjectPHP/Projects.inc");
+
+$params = $this->getParams();
+
+$projectId = $params["NumeroP"];
+
+$module = new Projects();
+$project = $module->getEntry( array( "project_id" => $projectId ) );
+
+?>
+
+<h2 id="viewTitle">
+<div class="TabsMenuLeft">
+<a href="#func=getGlobalView">Global</a> / 
+  <a href="#func=getConfigGlobalView&config=<?php echo $params['config']; ?>"><?php echo $params["config"]; ?></a> /
+<?php echo $project["project_name"]; ?>
+</div>
+<div class="TabsMenuRight"><?php echo $project["timezone"]; ?></div>
+</h2>
+
+<div class="wrapper">
+<div id="detailedViewContent">
+</div>
+
+
+</div>
+
+<script>
+  $(document).ready( function() {
+      BlueMaintenance.getTableData('?NumeroP=<?php echo $projectId; ?>&config=<?php echo $params["config"]; ?>');
+  });
+</script>

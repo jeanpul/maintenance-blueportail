@@ -1,0 +1,6 @@
+
+<?php if($this->isEnabled()): ?>
+<a id='license' href='/cgi-bin/License/LicenseConfiguration.cgi'>License configuration</a>
+<?php else: ?>
+<span id='licenseOff'>License configuration</span>
+<?php endif; ?>

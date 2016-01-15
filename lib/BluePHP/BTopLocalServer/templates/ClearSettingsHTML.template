@@ -1,0 +1,45 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSDialogApply.inc");
+
+$gui = H()->p("Warning : \"Clear all settings\" implies you lose all the configuration " . 
+	      "done on the entities and also the counting data and the " . 
+	      "statistics stored in the databases.")->form()->withId("ClearSettingsForm");
+$dialog = new BSDialogApply("ClearSettings",
+			    array( "title" => "Clear settings",
+				   "msg" => $gui->str() ));
+$dialog->setWidth("500px");
+$dialog->eventSubmit("ClearSettings_apply()");
+$dialog->render();
+
+$dialog = new BSDialogInfo("ClearSettings",
+			   array( "title" => "Clear settings...",
+				  "msg" => "<div id='loadingScreen'>Clear settings...</div>"));
+$dialog->setModal(true);
+$dialog->setAutoOpen(false);
+$dialog->setDraggable(false);
+$dialog->setResizable(false);
+$dialog->setClosable(false);
+$dialog->render();
+?>
+
+<script type="text/javascript">
+
+function ClearSettings_apply()
+{
+  $("#BSDialogInfo_ClearSettings").dialog("open");
+  BlueSystem.ModuleFormApply( { "class" : "BTopLocalServer.ClearSettingsHTML",
+	"render": "BSApplication",
+	"mode" : "append",
+	"function": "submit",
+	"id": "BSDialogApply_ClearSettings",
+	"formId": "ClearSettingsForm",
+	"success": function() { 
+	$("#BSDialogApply_ClearSettings").dialog("close");    
+	$("#BSDialogInfo_ClearSettings").dialog("close"); 
+        }
+    });
+}
+
+</script>
+

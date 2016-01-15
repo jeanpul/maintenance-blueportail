@@ -1,0 +1,8 @@
+<?php
+
+echo "<h3>" . _("Working time activity for") . " " . $this->params["cir"] . "</h3>\n";
+
+echo $this->makeTimeTable();
+
+
+?>

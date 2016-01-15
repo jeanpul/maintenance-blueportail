@@ -1,0 +1,52 @@
+<?php
+
+include_once("BluePHP/BlueProjectPHP/Projects.inc");
+include_once("BluePHP/BlueMaintenance/BMProjects.inc");
+
+$params = $this->getParams();
+
+$projectId = $params["NumeroP"];
+$clientId = $params["clientId"];
+
+$module = new Projects();
+$project = $module->getEntry( array( "project_id" => $projectId ) );
+
+$module = new BMProjects();
+$res = $module->getStatusFromClientId($clientId);
+
+?>
+
+<h2 id="viewTitle">
+<div class="TabsMenuLeft">
+<a href="#func=getGlobalView">Global</a> /
+  <a href="#func=getConfigGlobalView&config=<?php echo $params['config']; ?>"><?php echo $params["config"]; ?></a> /
+  <a href="#func=getDetailedView&NumeroP=<?php echo $projectId; ?>&config=<?php echo $params['config']; ?>"><?php echo $project["project_name"]; ?></a> /
+<?php echo $clientId; ?></div>
+<div class="TabsMenuRight"><?php echo $project["timezone"]; ?></div>
+</h2>
+
+<div class="wrapper">
+
+<?php
+
+  if($res["Ref"] == "B-Queue")
+    {
+      include_once("BluePHP/BlueMaintenance/BMTechFileBQueuePanel.inc");
+      $table = new BMTechFileBQueuePanel("TechFileBQueuePanel", array(), $res);
+      $table->render();
+    }
+  else if($res["Ref"] == "BlueCount")
+    {
+      include_once("BluePHP/BlueMaintenance/BMTechFileBTopPanel.inc");
+      $table = new BMTechFileBTopPanel("TechFileBTopPanel", array(), $res);
+      $table->render();
+    }
+  else if($res["Ref"] == "SmartMarket")
+    {
+      include_once("BluePHP/BlueMaintenance/BMTechFileQMSPanel.inc");
+      $table = new BMTechFileQMSPanel("TechFileQMSPanel", array(), $res);
+      $table->render();
+    }
+?>
+
+</div>

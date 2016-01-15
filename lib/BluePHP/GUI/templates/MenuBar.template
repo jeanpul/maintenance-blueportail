@@ -1,0 +1,7 @@
+<ul class="MenuBar" id="<?php echo $this->getId(); ?>">
+
+<?php foreach($this->getElts() as $elt): ?>
+<li><?php $elt->render(); ?></li>
+<?php endforeach; ?>
+
+</ul>

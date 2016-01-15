@@ -1,0 +1,31 @@
+<?php
+
+$menu = array( new MenuEntryLink('statistics', getBluePortailURL(STATURL), _("Statistics"), array( "enabled" => true, 
+												   "newWindow" => true )
+				 ),
+	       new MenuEntryLink('statistics', '/SmartMarket/Reports/DashBoard.php', _("Summary report"), array( "enabled" => true,
+														 "newWindow" => true )
+				 )
+	       );
+
+// retrieve dashboard list and then
+// create menu entry for each of them
+$module = new Dashboards();
+
+$dashboards = $module->getEntriesFromModule(array("module" => "Dashboards"));
+
+foreach($dashboards as $elt)
+  {
+    $entry = new MenuEntryLink( $elt["icon"],
+				"/Dashboards/index.php" . "?id=" . $elt["id"],
+				$elt["label"],
+				array( "enabled" => true,
+				       "newWindow" => true )
+				);
+    array_push($menu, $entry);
+  }
+
+$table = new MenuTable("Index", $menu, null );
+$table->render();
+
+?>

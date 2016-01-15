@@ -1,0 +1,47 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", 
+		       array( new MenuBarEntry("entities",
+					       array( "address" => "qms_conf.entities" ),
+					       $bsa->getLabel("qms_conf.entities"),
+					       array( "text" => $bsa->getInfo("qms_conf.entities") )
+					       ),
+			      new MenuBarEntry('indicators', 
+					       array( "address" => "qms_conf.indicators" ),
+					       $bsa->getLabel("qms_conf.indicators"),
+					       array( "text" => $bsa->getInfo("qms_conf.indicators") )
+					       ),
+			      new MenuEntryButton('indicators', 
+						  $bsa->getLabel("qms_conf.export"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_conf.export")),
+							 "text" => $bsa->getInfo("qms_conf.export")
+							 )
+						  ),
+			      new MenuEntryButton("calendar",
+						  $bsa->getLabel("qms_conf.calendar"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_conf.calendar")),
+							 "text" => $bsa->getInfo("qms_conf.calendar")
+							 )
+						  ),
+			      new MenuEntryButton("time",
+						  $bsa->getLabel("qms_conf.timezone"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_conf.timezone")),
+							 "text" => $bsa->getInfo("qms_conf.timezone")
+							 )
+						  ), 
+			      new MenuBarEntry('dashboards', 
+					       array( "address" => "qms_conf.dashboards" ),
+					       $bsa->getLabel("qms_conf.dashboards"),
+					       array( "text" => $bsa->getInfo("qms_conf.dashboards") )
+					       )
+			      ),
+		       null);
+$table->render();
+
+?>

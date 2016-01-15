@@ -1,0 +1,30 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+include_once("BluePHP/GUI/MenuEntryLink.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", 
+		       array( new MenuEntryLink('dashcustom',
+						$bsa->getClass("qms_conf.dashboards.customs"),
+						$bsa->getLabel("qms_conf.dashboards.customs"),
+						array( "enabled" => true,
+						       "newWindow" => true,
+						       "text" => $bsa->getInfo("qms_conf.dashboards.customs" )  
+						       )
+						)
+			      ),
+//			      new MenuEntryButton('summaryreport',
+//						  $bsa->getLabel("qms_conf.dashboards.summary"),
+//						  array( "onClick" => BS_eventRender($bsa->getClass("qms_conf.dashboards.summary")),
+//							 "text" => $bsa->getInfo("qms_conf.dashboards.summary")
+//							 )
+//						  )	 
+//			      ),		  
+		       null);
+$table->render();
+
+?>

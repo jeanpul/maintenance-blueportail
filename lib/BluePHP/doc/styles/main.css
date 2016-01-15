@@ -1,0 +1,34 @@
+
+body, html {
+    color: black;
+    background: none;
+}
+
+.Dialog {
+    background-color: #white;
+    margin-top: 20px;
+    border: 1px solid black;
+    text-align: left;
+    display: block;
+    border-collapse: collapse;
+}
+
+.Dialog .Header {
+    background-color: #eeeeff;
+    padding: 0.2em;
+    margin: 0px;
+    text-indent: 1em;
+    border-bottom: 1px dotted black;
+    display: block;
+}
+
+.Dialog .Content {
+    background-color: #E1E1E1;
+    margin: 10px;
+    border: 1px outset black;
+    border-collapse: collapse;
+}
+
+.Dialog .Header {
+    
+}

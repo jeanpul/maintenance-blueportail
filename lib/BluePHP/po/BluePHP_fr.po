@@ -1,0 +1,46 @@
+#
+# common BluePHP terms 
+#
+
+msgid "Menu"
+msgstr "Revenir au menu principal"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Passwd"
+msgstr "Mot de passe"
+
+msgid "Connect"
+msgstr "Connexion"
+
+msgid "Enter"
+msgstr "Saisissez votre login et mot de passe"
+
+msgid "ErrorMsg"
+msgstr "L'erreur suivante est survenue :"
+
+msgid "Multiple access invalid. A session is still in process click <a href='%s'>here</a> to continue."
+msgstr "Acc&egrave;s concurrent interdit. Cliquer <a href='%s'>ici</a> pour continuer."
+
+msgid "ErrorSession"
+msgstr "Session expir&eacute;e ou non autoris&eacute;e"
+
+msgid "ErrorLogin"
+msgstr "Login ou mot de passe incorrect"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "ForTheDay"
+msgstr "Pour la journée du"
+
+msgid "ForThePeriod"
+msgstr "Pour la période"
+
+msgid "PeriodFrom"
+msgstr "du"
+
+msgid "PeriodTo"
+msgstr "au"
+

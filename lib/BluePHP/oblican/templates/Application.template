@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+  <head>
+    
+    <meta charset="utf-8"/>
+    
+    <title>Oll: store, share and discover relevant information</title>
+    
+    <meta name="description" content="All save, share and discover"/>
+    <meta name="author" content="sam and fab"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    <?php foreach($this->getStyles() as $elt): ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $elt; ?>"/>
+    <?php endforeach; ?>
+
+    <?php foreach($this->getLibs() as $elt): ?>
+    <script type="text/javascript" src="<?php echo $this->getLibFile($elt); ?>"></script>  
+    <?php endforeach; ?>
+
+    <link rel="shortcut icon" href="styles/favicon.ico"/>
+    <link rel="apple-touch-icon" href="styles/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" size="72x72" href="styles/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" size="114x114" href="styles/apple-touch-icon-114x114.png"/>
+
+  </head>
+
+  <body>        
+
+    <script type="text/javascript">
+      <?php echo $this->renderJS(); ?>
+    </script>
+
+    <div class="container">
+
+<!--
+    <header class="global">
+      <nav class="nav-primary">
+	<ul>
+	  <li><a href="/oblican">Home</a></li>
+	  <li><a href="/oblican/">Store</a></li>
+	  <li><a href="/oblican/view">View</a></li>
+	  <li><a href="/oblican/log-in">Log in</a></li>
+	</ul>
+      </nav>
+    </header>
+-->
+
+    <div id="content">      
+      <?php $this->renderWindow(); ?>
+    </div>
+
+    <footer class="global">
+      <div class="sixteen columns text-center">
+	<h5>Store, share and discover all content that matter for you</h5>
+	<hr />
+      </div>
+      <nav>
+	<div class="one-third column">
+	  <h3>About Oll ?</h3>
+	  <p>Oll is a smart way to collect all your relevant information. You will be able to save, share and discover relevant information and statistics based on your data.</p>
+	</div>
+
+	<div class="one-third column">
+	  <h3>Technology</h3>
+	  <p>Oll is built on three core principles:</p>
+	  <ul class="square">
+	    <li><strong>Fast</strong>: Enter your data, click store and your done. You can get back to previous data for future modification. </li>
+	    <li><strong>Save everything</strong>: You can enter any information you want. Flight or train delay, drink with friends, weather. </li>
+	    <li><strong>Connect everything</strong>: It provides you relevant data based on your entries.</li>
+	  </ul>
+	</div>
+	<div class="one-third column">
+	  <h3>Contact us</h3>
+	  <p>If you have any questions, thoughts, concerns or feedback, please don't hesitate to email us at <a href="mailto:hi@saveoll.com">hi@saveoll.com</a>.</p>
+	</div>	
+    </nav>
+<!--    <p class="copyright">2013</p> -->
+    </footer>
+
+    </div>
+
+  </body>
+</html>

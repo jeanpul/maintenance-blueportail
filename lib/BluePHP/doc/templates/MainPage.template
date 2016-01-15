@@ -1,0 +1,24 @@
+<div class="main-title">
+  <h1>BluePHP library documentation</h1>
+</div>
+
+<div class="three-section">
+  <div class="first-section">
+    <h2>What is BluePHP?</h2>
+    <p>BluePHP is a Web based application development library.</p>
+  </div>
+  <div class="second-section">
+    <h2>Want to start?</h2>
+    <p>See some HOWTOs and Quick Start Guides bellow.</p>    
+    <ul>
+      <li><a href="/BluePHP/doc/howtos/HowToWriteHTML.php">How to write HTML using PHP objects</a></li>
+      <li><a href="/BluePHP/doc/howtos/HowToPHPObjectJavascript.php">How to call PHP objects methods from javascript</a></li>
+      <li><a href="/BluePHP/doc/howtos/HowToWriteBSApplication.php">How to develop a new BlueSystem Application</a></li>
+      <li><a href="/BluePHP/doc/examples/index.php">Live examples</a></li>
+    </ul>
+  </div>
+  <div class="third-section">
+    <h2>Documentations</h2>
+    <p>For developpers that already have knowledge for that library.</p>
+  </div>
+</div>

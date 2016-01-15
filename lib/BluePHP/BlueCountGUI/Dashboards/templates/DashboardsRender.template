@@ -1,0 +1,33 @@
+<?php
+
+include_once("BluePHP/Dashboards/Config.inc");
+
+$cssRoot = "/Dashboards/styles/themes/" . $this->getClass();
+$iddash = "Dashboard-" . $this->getId();
+$dashCSS = DASHBOARD_STYLE_URL_BASE . "/dash_" . $this->getId() . ".css";
+
+if($this->getClass() == "smartphone")
+  {
+?>
+<script>
+$('head').append('<meta name="viewport" content="width=device-width, initial-scale=1" />');
+</script>
+<?php
+  }
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssRoot; ?>/Dashboards.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssRoot; ?>/Layout.css"/> 
+<link rel="stylesheet" type="text/css" href="<?php echo $dashCSS; ?>"/>
+<div id="<?php echo $iddash; ?>" class="DashBoardsPanel">
+<?php
+
+   foreach($this->getPanels() as $p)
+     {
+       echo "<div id=\"position-" . $p->getPosition() . "\">";
+       $p->render();
+       echo "</div>";
+     }
+
+?>
+</div>
+</div>

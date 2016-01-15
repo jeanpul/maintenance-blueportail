@@ -1,0 +1,25 @@
+<?php
+
+$params = array_merge(array( "__class" => null,
+			     "__id" => "",
+			     "__function" => "render" ),
+		      $this->getParams());
+
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+$bsa = new BSAddresses();
+
+$params["__class"] = $bsa->getClass($params["address"]);
+
+$classPath = strtr($params["__class"], ".", "/");
+$className = basename($classPath);
+
+include_once("BluePHP/" . $classPath . ".inc");
+
+$id = $params["__id"];
+
+$widget = new $className($id, $params);
+
+call_user_func(array($widget, $params["__function"]));
+
+?>

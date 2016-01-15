@@ -1,0 +1,7 @@
+<form class="Form" id="<?php echo $this->getId(); ?>">
+
+<?php foreach($this->getElts() as $k => $v): ?>
+<input name="<?php echo $k; ?>" value="<?php echo $v; ?>" type="<?php echo ($this->isVisible() ? 'text' : 'hidden'); ?>" />
+<?php endforeach; ?>
+
+</form>

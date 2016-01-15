@@ -1,0 +1,9 @@
+<div class="MenuTable" id="<?php echo $this->getId(); ?>">
+<?php foreach($this->getEntries() as $elt): ?>
+<?php if($elt != null): ?> 
+<div class="MenuEntryPanel">
+<?php echo $elt->render(); ?>
+</div>
+<?php endif; ?>
+<?php endforeach; ?>
+</div>

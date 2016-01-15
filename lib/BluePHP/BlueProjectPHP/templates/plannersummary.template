@@ -1,0 +1,6 @@
+<div class="PlannerSummary" id="<?php echo $this->getId(); ?>">
+<h3>Work summary</h3>
+<?php
+echo $this->makeSummary();
+?>
+</div>

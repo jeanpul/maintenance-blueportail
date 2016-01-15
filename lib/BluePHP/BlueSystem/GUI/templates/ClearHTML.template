@@ -1,0 +1,40 @@
+<div class="DashBoardsPanel">
+<div class="Panel Panel-two Panel-hcenter Panel-blue">
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/BlueSystem/Clear.inc");
+
+$params = array_merge( array( "step" => 0 ),
+		       $this->getParams() );
+
+if($params["step"] == 0)
+  {
+    $str = createInputHidden("step", 1);
+?>    
+
+<h3>Clear all settings</h3>
+<p class="warning">Clear all settings implies you lose all configuration done after
+the installation of the system. The configuration is reseted to its initial state but system
+updates are still kept.</p>
+<form id="ClearForm" action="/BlueSystem/ClearSettings.php" method="GET">
+<?php echo $str; ?>
+</form>
+<button class="btn" onclick="BlueSystem.ModuleFormApply({'id':'Clear','class':'ClearHTML'});">Apply</button>
+
+
+<?php
+  }
+else if($params["step"] == 1)
+  {
+    $module = new Clear();
+    $module->setEntry($params);
+?>
+    <p>Settings cleared.</p>
+<?php
+  }
+?>
+
+</div>
+</div>

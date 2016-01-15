@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <meta charset="utf-8"/>
+
+  <head>
+    
+    <title>BluePHP</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  
+    <?php foreach($this->getStyles() as $elt): ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $elt; ?>"/>
+    <?php endforeach; ?>
+
+    <?php foreach($this->getLibs() as $elt): ?>
+    <script type="text/javascript" src="<?php echo $this->getLibFile($elt); ?>"></script>  
+    <?php endforeach; ?>
+
+    <link rel="shortcut icon" href="styles/favicon.ico"/>
+
+  </head>
+
+  <body>        
+
+    <script type="text/javascript">
+      <?php echo $this->renderJS(); ?>
+    </script>
+
+    <div class="wrapper">
+      <div class="container nav">
+	<a class="brand" href="/BluePHP/doc/">
+	  <img alt="BluePHP" src="/BluePHP/doc/styles/BluePHPLogoSmall.png" title="BluePHP Logo"/>
+	</a>
+	<ul class="nav">
+	  <li><a href="#">About</a></li>
+	  <li><a href="http://pong/BlueProject">BlueProject</a></li>
+	  <li><a href="http://pong/BlueProject/index.php?n=BEVSOCODO.BEVSOCODO">BEVSoCoDo</a></li>
+	  <li><a href="http://juliette/repos/BluePHP">SVN repository</a></li>
+	</ul>
+      </div>
+
+      <div class="container">
+	<?php $this->renderWindow(); ?>
+      </div> <!-- /container -->	
+
+      <footer>
+	<div class="container">
+	  <div class="footer">copyright 2013 - <a href="http://www.blueeyevideo.com">Blue Eye Video</a></div>
+	</div>
+      </footer>
+
+    </div>
+  </body>
+</html>

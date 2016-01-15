@@ -1,0 +1,21 @@
+<?php 
+
+$json = $this->getStringParams();
+
+echo $this->getContent();
+
+?>
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+    var table = $("#<?php echo $this->getId(); ?>").dataTable( <?php echo $json; ?> );
+<?php
+    if($this->isFixedHeader())
+     {
+       echo "new $.fn.dataTable.FixedHeader(table);\n";
+     }
+?>
+});
+
+</script>

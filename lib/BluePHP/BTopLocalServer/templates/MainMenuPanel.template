@@ -1,0 +1,34 @@
+<?php
+
+include_once("BluePHP/GUI/MenuBarEntry.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+$bsa = new BSAddresses();
+
+$menuElts = array( new MenuBarEntry( "ossettings",
+				     array( "address" => "ossettings" ),
+				     $bsa->getLabel("ossettings")),
+		   new MenuBarEntry( "configuration",
+				     array( "address" => "qms_conf" ),
+				     $bsa->getLabel("qms_conf")),
+		   new MenuBarEntry( "maintenance",
+				     array( "address" => "qms_main" ),
+				     $bsa->getLabel("qms_main")),
+		   new MenuBarEntry( "dashboard",
+				     array( "address" => "qms_dash" ),
+				     $bsa->getLabel("qms_dash"))
+		   );
+?>
+
+<div id="<?php echo $this->getId(); ?>" class="TabsMenu">
+<ul class="navigation">
+  <?php      
+  foreach($menuElts as $elt)
+    {
+      echo "<li>";
+      echo $elt->render(); 
+      echo "</li>\n";
+    }
+  ?>
+</ul>
+</div>

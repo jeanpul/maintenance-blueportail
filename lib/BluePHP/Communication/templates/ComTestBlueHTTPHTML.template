@@ -1,0 +1,45 @@
+<div class="Panel Panel-two Panel-hcenter Panel-blue">
+<div class="Panel-namearea">BlueHTTP communication test</div>
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/GUI/DialogWarning.inc");
+include_once("BluePHP/GUI/DialogInfo.inc");
+include_once("BluePHP/GUI/DialogError.inc");
+include_once("BluePHP/Communication/ComConfiguration.inc");
+
+$module = new ComConfiguration();
+$params = $module->getComParams();
+
+if($params["COLLECTVALUES_TOBLUEHTTP"] != "true")
+  {
+    $warning = new DialogWarning("", array( "title" => "",
+					    "msg" => "The tests cannot be done because the BlueHTTP communication is actually not activated."),
+				 null);
+    $warning->render();
+  }
+else
+  {
+    $res = $module->testComParams();
+    $urlbase = $module->getComURL();
+    $msg = null;
+    $msgBase = "BlueHTTP communication on " . $module->getComURL();
+    if($res == 0)
+      {
+	$msg = new DialogInfo("", array( "title" => "",
+					 "msg" => $msgBase . " OK"),
+			      null);
+      }
+    else
+      {
+	$msg = new DialogError("", array( "title" => "",
+					  "msg" => $msgBase . " Failed"),
+			       null);
+      }
+    $msg->render();
+  }
+
+?>
+
+</div>

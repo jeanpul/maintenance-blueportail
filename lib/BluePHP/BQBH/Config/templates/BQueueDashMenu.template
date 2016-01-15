@@ -1,0 +1,18 @@
+<?php
+
+$bqs = new BQBHServerLicense();    
+
+$table = new MenuTable("", array( new MenuBarEntry('maintenance',
+						   array( "address" => "dashboard.status" ),
+						   _("Status")),
+				  new MenuBarEntry("maintenance",
+						   array( "address" => "dashboard.bqueuebrowser" ),
+						   _("BQ Browser")),
+				  new MenuBarEntry("maintenance",
+						   array( "address" => "maintenance.mosaic" ),
+						   _("Mosaic"))
+				  ),		       		
+		       null);
+$table->render();
+
+?>

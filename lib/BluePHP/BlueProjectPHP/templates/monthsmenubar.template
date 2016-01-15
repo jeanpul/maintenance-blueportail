@@ -1,0 +1,23 @@
+<?php
+
+// generate menu links
+$pageName = $this->params["pageName"];
+$currentMonth = $this->params["month"];
+$str = "<ul class='HList'>\n";
+foreach($this->monthsNames as $k => $v)
+  {
+    if($currentMonth == $v["idx"])
+      {
+	$str .= "<li class='Sel'>" . $v["name"] . "</li>\n";
+      }
+    else
+      {
+	$params["month"] = $v["idx"];
+	$str .= "<li>" . generateHREF($pageName, $v["name"], $params) . "</li>\n";
+      }
+  }
+$str .= "</ul>\n";    
+
+echo $str;
+
+?>

@@ -1,0 +1,57 @@
+<?php
+
+include_once("BluePHP/BlueMaintenance/BMProjects.inc");
+include_once("BluePHP/Utils/HTML.inc");
+
+$module = new BMProjects();
+
+$res = $module->getStatusOverview();
+
+?>
+
+<h2 id="viewTitle">
+<div class="TabsMenuLeft">Global</div>
+</h2>
+
+<div class="wrapper">
+
+<div id="TableDataJSON">
+<table id="GlobalPanelTable" class="display">
+  <thead>
+  <tr>
+  <th>Site</th><th>Projects</th><th>Products</th><th>OK</th><th>Checked</th>
+  <th>Warning</th><th>WarningChecked</th><th>lastDate</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php  
+  foreach($res as $v)
+{
+  unset($v["project_id"]);
+  $v["project_name"] = "<a href=\"#func=getConfigGlobalView&config=" . $v["project_name"] . 
+  "\">" . $v["project_name"] . "</a>";
+  echo H()->row($v)->str();
+}
+  ?>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+  $(document).ready( function() {
+      $("#GlobalPanelTable").dataTable({
+	  "bJQueryUI": true,
+	  "sPaginationType": "full_numbers",
+	  "fnRowCallback" : function( nRow, aData ) {
+	      var grade = "gradeOK";
+	      if(aData[5] > 0)
+	      {
+		  grade = "gradeWarning"; 
+	      }
+	      $(nRow).addClass(grade);
+	  }
+      });
+  });
+</script>

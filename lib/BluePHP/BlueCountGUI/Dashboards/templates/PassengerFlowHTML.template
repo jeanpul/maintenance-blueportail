@@ -1,0 +1,38 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+
+$params = $this->getPanel();
+$label = $params["label"];
+$numId = $params["numId"];
+$idvalue = $this->getClass() . "Flow_" . $this->getId();
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$params = array_merge( array( "idvalue" => $idvalue ),
+		       $params );
+
+$jsonOptions = json_encode($params, JSON_NUMERIC_CHECK);
+
+?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+<div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+<div class="Panel-title"><img src="/BlueSystem/styles/people_panel.png"> Passenger flow</div>
+    <div class="Panel-namearea"><?php echo $label; ?></div>
+</div>
+<div class="Panel-value" id="<?php echo $idvalue; ?>">
+<span class="fValue"></span>
+<span class="fUnit"></span>
+</div>
+</div>
+
+<script type="text/javascript">		
+  $(document).ready( function() {
+          Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	      PassengerFlow.Init(<?php echo $jsonOptions; ?>);
+	    }); 
+    });
+</script>

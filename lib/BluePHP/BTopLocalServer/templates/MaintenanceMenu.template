@@ -1,0 +1,42 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", 
+		       array( new MenuBarEntry("log",
+					       array( "address" => "qms_main.status" ),
+					       $bsa->getLabel("qms_main.status"),
+					       array( "text" => $bsa->getInfo("qms_main.status") )
+					       ),
+			      new MenuEntryButton('backup',
+						  $bsa->getLabel("qms_main.backup"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_main.backup")),
+							 "text" => $bsa->getInfo("qms_main.backup")
+							 )
+						  ),
+			      new MenuEntryButton('redundancy',
+						  $bsa->getLabel("qms_main.serversync"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_main.serversync")),
+							 "text" => $bsa->getInfo("qms_main.serversync")
+							 )
+						  ),
+			      new MenuBarEntry('restore',
+					       array( "address" => "qms_main.restore" ),
+					       $bsa->getLabel("qms_main.restore"),
+					       array( "text" => $bsa->getInfo("qms_main.restore") )
+					       ),
+			      new MenuEntryButton("clear",
+						  $bsa->getLabel("qms_main.clear"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_main.clear")),
+							 "text" => $bsa->getInfo("qms_main.clear")
+							 )
+						  )
+			      ),
+		       null);
+$table->render();
+
+?>

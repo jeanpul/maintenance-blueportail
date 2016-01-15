@@ -1,0 +1,20 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", 
+		       array( new MenuEntryButton('api',
+						  $bsa->getLabel("qms_conf.communication.api"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("qms_conf.communication.api")),
+							 "text" => $bsa->getInfo("qms_conf.communication.api")
+							 )
+						  )	 
+			      ),		  
+		       null);
+$table->render();
+
+?>

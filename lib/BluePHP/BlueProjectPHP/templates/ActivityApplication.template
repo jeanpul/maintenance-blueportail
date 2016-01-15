@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+<?php 
+   $TITLES = $this->getTitle();
+   $REFERENCE = $this->getReference();
+?>
+
+<title>CIRGenerator</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="Copyright 2012, BlueEyeVideo" />
+<link rev="made" href="mailto:fabien.pelisson@blueeyevideo.com" />
+
+<?php foreach($this->getStyles() as $elt): ?>
+<link rel="stylesheet" type="text/css" href="<?php echo $elt; ?>"/>
+<?php endforeach; ?>
+
+<?php foreach($this->getLibs() as $elt): ?>
+<script type="text/javascript" src="<?php echo $this->getLibFile($elt); ?>"></script>  
+<?php endforeach; ?>
+
+   </head>
+
+   <body>
+
+<?php
+
+include_once("BluePHP/BlueProjectPHP/Config.inc");
+include_once("BluePHP/JQUERY/Layout.inc");
+include_once("BluePHP/GUI/Form.inc");
+include_once("BluePHP/GUI/VBox.inc");
+include_once("BluePHP/GUI/Label.inc");
+include_once("BluePHP/GUI/Dialog.inc");
+include_once("BluePHP/GUI/Concat.inc");
+include_once("BluePHP/BlueProjectPHP/ActivityHTML.inc");
+include_once("BluePHP/BlueProjectPHP/SalMenuBar.inc");
+include_once("BluePHP/BlueProjectPHP/MonthsMenuBar.inc");
+include_once("BluePHP/BlueProjectPHP/YearsMenuBar.inc");
+
+$curDate = getdate();
+
+$params = array_merge( array( "pageName" => "Report.php",
+			      "year" => $curDate["year"], 
+			      "month" => sprintf("%02d", $curDate["mon"]), 
+			      "contact_id" => 26, 
+			      "quarter" => 1, 
+			      "export" => "html-table"),
+		       $_GET );
+
+
+$form = new Form("parameters1", null, $params);
+$form->setVisible(false);
+$form->render();
+
+?>
+
+<div class="FixedHead">
+
+<h1 class="Label" id="">Actions de l'équipes de techniques dans le cadre du CIR</h1>
+
+<?php
+
+  $menu = new SalMenuBar("salmenubar1", $this, $params, "changeSalaryName");
+$menu->render();
+
+$menu =  new MonthsMenuBar("monthmenubar1", $this, $params, "changeMonth");
+$menu->render();
+
+$menu =  new YearsMenuBar("yearmenubar1", $this, $params, "changeYear");
+$menu->render();
+
+?>
+
+</div>
+
+<div id="BSApplication" class="Content">
+</div>
+
+
+   </body>
+</html>
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+    cir.Init({});    
+    BlueSystem.callClassHTML({ "id":"",
+			       "render": "BSApplication",
+			       "mode": "append",
+			       "class": "BlueProjectPHP.ActivityHTML" });
+});
+
+</script>

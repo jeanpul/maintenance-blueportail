@@ -1,0 +1,37 @@
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/Utils/DateOps.inc");
+include_once("BluePHP/BTopLocalServer/GrabIPTableHTML.inc");
+include_once("BluePHP/BTopLocalServer/BlueCountLang.inc");
+
+$clang = new BlueCountLang();
+$NbLocations = $clang->getNumberOfLocations();
+$NbDoors = $clang->getNumberOfDoors();
+
+?>
+
+<div class="DashBoardsPanel">
+<div class="Panel Panel-one Panel-hcenter Panel-blue">
+<div class="Panel-namearea">General information</div>
+<table>
+<tbody>
+<tr>
+<td>Last processing</td>
+  <td><?php echo $clang->convertToTimeZone($clang->getLastPushTask()); ?></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<?php
+
+  $window = new GrabIPTableHTML("", array( "action" => "list"));
+  $window->render();
+
+?>
+
+<script type='text/javascript'>
+  BTopLocalServer.startSensorsComList({'id':'GrabIPTableHTML'});
+</script>

@@ -1,0 +1,35 @@
+<?php
+
+include_once("BluePHP/Utils/HTML.inc");
+
+$str = "";
+$classNames = "ModuleInterface";
+$params = $this->getParams();
+
+if($params["action"] == "list")
+{
+  $this->getTableList();
+}
+else if($params["action"] == "view")
+{
+  if($params["action"] == "view")
+    {
+      $params = array_merge($params, $this->getModule()->getEntry($params));
+    }
+?>
+<div>
+<?php echo $this->getTableView($params); ?>
+</div>
+<?php
+}
+else 
+{
+  if($params["action"] == "edit")
+    {
+      $params = array_merge($params, $this->getModule()->getEntry($params));
+    }
+  $this->getTableInput($params);
+}
+
+
+?>

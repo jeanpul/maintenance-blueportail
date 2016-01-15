@@ -1,0 +1,21 @@
+<?php
+$str = "";
+$query = $this->getQuery();
+if($query) 
+  {
+    $str = "You have submitted the following data : " . $query;
+  }
+
+$sstruct = $this->getStructure();
+
+?>
+
+<div id="<?php $this->getId(); ?>">
+<ul>
+<li>Post: <?php echo $sstruct["whenEvent"]; ?></li>
+<li>Who: <?php echo $sstruct["who"]; ?></li>
+<li>Which: <?php echo $sstruct["category"] . " / " . $sstruct["which"]; ?></li>
+<li>Why: <?php echo $sstruct["why"]; ?></li>
+<li>How: <?php echo $sstruct["how"]; ?></li>
+</ul>
+</div>

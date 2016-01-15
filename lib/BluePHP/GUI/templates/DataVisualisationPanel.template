@@ -1,0 +1,31 @@
+<?php
+
+$str = "";
+$classNames = "DataVisualisationPanel";
+$params = $this->getParams();
+
+if($this->isRenderList())
+{
+?>
+<div class="DashBoardsPanel">
+<div id="<?php echo $this->getId(); ?>" class="Panel Panel-hcenter Panel-blue">
+    <?php $this->renderList(); ?>
+</div>
+</div>
+<?php
+}
+else 
+{
+  if($this->isRenderEdit())
+    {
+      $params = array_merge($params, $this->getModule()->getEntry($params));
+    }
+?>
+<div id="<?php echo $this->getId(); ?>" class="TableInput DataVisualisationPanel">
+<form>
+   <? $this->renderEdit($params); ?>
+</form>
+</div>
+<?php
+}
+?>

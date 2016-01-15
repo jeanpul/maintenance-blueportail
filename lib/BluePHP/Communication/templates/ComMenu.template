@@ -1,0 +1,17 @@
+<?php
+
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", array( new MenuBarEntry("communication",
+						   array( "address" => "configuration.communication.parameters" ),
+						   _("Parameters")),
+				  new MenuBarEntry("communication",
+						   array( "address" => "configuration.communication.testbluehttp" ),
+						   _("Test BlueHTTP"))
+				  ),
+		       null);
+$table->render();
+
+?>

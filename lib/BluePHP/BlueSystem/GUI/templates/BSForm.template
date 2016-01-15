@@ -1,0 +1,14 @@
+<?php
+
+$id = $this->getId();
+$idForm = $id . "Form";
+$params = $this->getParams();
+
+?>
+
+<form id="<?php echo $idForm; ?>" action="" method="GET">
+<fieldset>
+<?php echo $this->getFormContent(); ?>
+</fieldset>
+</form>
+<button onclick="BlueSystem.ModuleFormApply({'id':'<?php echo $id; ?>','class':'<?php echo $params["__class"]; ?>'});">Apply</button>

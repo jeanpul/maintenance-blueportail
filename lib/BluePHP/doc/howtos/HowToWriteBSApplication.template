@@ -1,0 +1,24 @@
+<div class="main-title">
+  <h1>How to develop a BlueSystem Application</h1>
+</div>
+
+<div class="section">
+  <h2>What is a BlueSystem Application ?</h2>
+
+<p>
+  If you have already used some of the Web-Based BlueEyeVideo applications then you already
+have used some BlueSystem Application. The QMS, Dashboard Editor, GesCom and BlueMaintenance interfaces
+were developped with the BlueSystem part of the BluePHP library. 
+</p>
+
+</div>
+
+<div class="section">
+  <h2>Start with your main Application class</h2>
+
+<p>
+All the BlueSystem application start with a class
+derivated from BSApplication.
+</p>
+
+</div>

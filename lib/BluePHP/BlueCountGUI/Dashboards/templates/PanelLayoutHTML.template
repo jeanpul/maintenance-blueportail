@@ -1,0 +1,123 @@
+<?php
+
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+
+$params = $this->getParams();
+$position = $params["position"];
+
+$classes = "PanelLayout Panel-h-one Panel-v-one";
+$panelParams = array( "class" => _("NO PANEL DEFINED") );
+$p = $this->getPanel();
+
+if($p)
+  {
+    $panelParams = $p->getPanel();
+    $classes = "PanelLayout " . $panelParams["size"] . " Panel-" . $panelParams["category"];
+
+    $me = new MenuEntryButton("edit",
+			      _("Edit"),
+			      array( "onClick" => BS_eventRender( "BTopLocalServer.DashboardEditor",
+								  "action=edit&id=" . 
+								  $params["idd"] . 
+								  "&idp=" . $p->getId() . 
+								  "&class=" . $p->getClass() . 
+								  "&position=" . $params["position"] ))
+			      );
+    $btEdit = $me->render();
+
+
+    $me = new MenuEntryButton("",
+			      _("Remove"),
+			      array( "onClick" => BS_eventRenderWithParams( "BTopLocalServer.DashboardEditor",
+									    "",
+									    "action=delete&idd=" . 
+									    $params["idd"] . 
+									    "&id=" . $params["idd"] . 
+									    "&position=" . $params["position"],
+									    "delEntrySubmission" ))
+			      );
+    $btRemove = $me->render();
+
+    $extra = ""; 
+    $disabled=" disabled='disabled'";
+    if($position != 0)
+      {
+	$jscall = js_funcall(array( "function" => "BTopLocalServer.MovePanel",
+				    "options" => array( "idd" => $params["idd"],
+							"id" => $p->getId(),
+							"isActive" => $p->isActive(),
+							"position" => $params["position"] - 1 )));
+	$disabled = "";
+	$extra = " onclick='$jscall'";
+      }
+    $btLeft = "<button" . $disabled . $extra . ">Left</button>";
+
+    $extra = ""; 
+    $disabled=" disabled='disabled'";
+    if($position < $p->getMaxPos())
+      {
+	$jscall = js_funcall(array( "function" => "BTopLocalServer.MovePanel",
+				    "options" => array( "idd" => $params["idd"],
+							"id" => $p->getId(),
+							"isActive" => $p->isActive(),
+							"position" => $params["position"] + 1 )));
+	$disabled = "";
+	$extra = " onclick='$jscall'";
+      }
+    $btRight = "<button" . $disabled . $extra . ">Right</button>";
+
+
+?>
+<div id="<?php echo $this->getId(); ?>" class="Panel <?php echo $classes; ?>">
+<div class="PanelLayout-top">
+<div class="Panel-params">
+<?php echo $btEdit . $btLeft . $btRight . $btRemove; ?>
+</div>
+</div>                       
+<?php
+   $str = "<ul id=\"WidgetMedia\" class=\"media-list\">\n";    
+   $str .= $p->getMediaContent();
+   $str .= "</ul>\n";   
+?>
+<h2 id="class"><?php echo _("Widget") . " " . $p->getId(); ?></h2>
+<div class="PanelLayout-bottom"><?php echo $str; ?></div>
+<form id="params">
+<input type="hidden" name="idd" value="<?php echo $params["idd"]; ?>"/>
+<input type="hidden" name="id" value="<?php echo $p->getId(); ?>"/>
+<input type="hidden" name="isActive" value="<?php echo $p->isActive(); ?>"/>
+<input type="hidden" name="position" value="<?php echo $position; ?>"/>
+</form>
+</div>
+
+<script>
+
+   (function($) {
+     BTopLocalServer.runDrag({ id: "<?php echo $this->getId(); ?>",
+			       class: "<?php echo $classes; ?>" });
+   })(jQuery)
+
+</script>
+
+<?php
+  }
+else  
+  {
+    $me = new MenuEntryButton("cross",
+			      _("+"),
+			      array( "onClick" => BS_eventRender( "BTopLocalServer.DashboardEditor",
+								  "action=create&id=" . $params["idd"] . 
+								  "&idd=" . $params["idd"] . 
+								  "&position=" . $params["position"]))
+			      );
+?>
+
+<div id="CreatePanel" class="Panel-h-one Panel-v-one">
+<?php echo $me->render(); ?>
+</div>
+
+<?php
+  }
+
+?>
+

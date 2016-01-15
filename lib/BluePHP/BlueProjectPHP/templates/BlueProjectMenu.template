@@ -1,0 +1,54 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$table = new MenuTable("", 
+		       array( new MenuEntryButton('devis',
+						  $bsa->getLabel("bp_com.devis"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.devis")) 
+							 )
+						  ),
+			      new MenuEntryButton('commandes',
+						  $bsa->getLabel("bp_com.commandes"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.commandes"))
+							 )
+						  ),
+			      new MenuEntryButton('factures',
+						  $bsa->getLabel("bp_com.factures"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.factures"))
+							 )
+						  ),
+			      new MenuEntryButton('avoirs',
+						  $bsa->getLabel("bp_com.avoirs"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.avoirs"))
+							 )
+						  ),
+			      new MenuEntryButton('livraisons',
+						  $bsa->getLabel("bp_com.livraisons"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.livraisons"))
+							 )
+						  ),
+			      new MenuEntryButton('fournisseurs',
+						  $bsa->getLabel("bp_com.fournisseurs"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.fournisseurs"))
+							 )
+						  ),
+			      new MenuEntryButton('paiements',
+						  $bsa->getLabel("bp_com.paiements"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.paiements"))
+							 )
+						  ),
+			      new MenuEntryButton('companies',
+						  $bsa->getLabel("bp_com.companies"),
+						  array( "onClick" => BS_eventRender($bsa->getClass("bp_com.companies"))
+							 )
+						  )
+			      ),
+		       null);
+$table->render();
+
+?>

@@ -1,0 +1,59 @@
+<?php
+
+include_once("BluePHP/BlueMaintenance/BMProjects.inc");
+include_once("BluePHP/Utils/HTML.inc");
+
+$params = $this->getParams();
+
+$module = new BMProjects();
+
+$res = $module->getConfigStatusOverview($params["config"]);
+
+?>
+
+<h2 id="viewTitle">
+    <div class="TabsMenuLeft"><a href="#func=getGlobalView">Global</a> / <?php echo $params["config"]; ?></div>
+</h2>
+
+<div class="wrapper">
+
+<div id="TableDataJSON">
+<table id="GlobalPanelTable" class="display">
+  <thead>
+  <tr>
+  <th>Project</th><th>Id</th><th>Products</th><th>OK</th><th>Checked</th>
+  <th>Warning</th><th>WarningChecked</th><th>lastDate</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php  
+foreach($res as $v)
+{
+    $v["project_name"] = "<a href=\"#func=getDetailedView&config=" . $params["config"] . 
+	"&NumeroP=" . $v["project_id"] . "&Function=SelectRowAll\">" . $v["project_name"] . "</a>";
+    unset($v["nbProject"]);
+    echo H()->row($v)->str();
+}
+  ?>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+  $(document).ready( function() {
+      $("#GlobalPanelTable").dataTable({
+	  "bJQueryUI": true,
+	  "sPaginationType": "full_numbers",
+	  "fnRowCallback" : function( nRow, aData ) {
+	      var grade = "gradeOK";
+	      if(aData[5] > 0)
+	      {
+		  grade = "gradeWarning"; 
+	      }
+	      $(nRow).addClass(grade);
+	  }
+      });
+  });
+</script>

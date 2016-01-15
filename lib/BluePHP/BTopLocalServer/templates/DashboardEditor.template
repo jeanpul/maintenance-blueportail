@@ -1,0 +1,52 @@
+<?php
+
+$params = $this->getParams();
+
+if($params["action"] == "list")
+  {
+?>
+
+<?php
+      if($this->getCurrentDashboard())
+	{
+	  $cssRoot = "/Dashboards/styles/themes/" . $this->getClass();
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssRoot; ?>/Dashboards.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssRoot; ?>/Layout.css"/> 
+<div id="DashboardPanelsList" class="DashBoardsPanel">
+<?php
+	  $maxPosition = 0;
+	  foreach($this->getPanels(false) as $p)
+	    {
+	      echo "<div id=\"position-" . $p->getPosition() . "\">";
+	      $pl = new PanelLayoutHTML($p->getPosition(), 
+					array( "idd" => $this->getId(),
+					       "position" => $p->getPosition() ),
+					$p);
+	      $pl->render();
+	      echo "</div>";
+	      $maxPosition = $p->getPosition() + 1;
+	    }	
+	  
+	  $pl = new PanelLayoutHTML($maxPosition,  
+				    array( "idd" => $this->getId(),
+					   "position" => $maxPosition )
+				    );
+	  $pl->render();
+	}
+    else
+      {
+?>
+<div id="DashboardPanelsList" class="DashBoardsPanel">
+<p class="info">No dashboard defined, please click on the <b>Create a new Dashboard</b> button located at the top bar.</p>
+<?php
+      }
+  }
+else 
+  {
+    $this->getTableInput($params);
+  }
+
+?>
+
+</div>

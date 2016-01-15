@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+<title>BlueSystem Application</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="Copyright <?php echo $this->getCopyrightYear(); ?>, BlueEyeVideo" />
+<link rev="made" href="mailto:fabien.pelisson@blueeyevideo.com" />
+
+<?php foreach($this->getStyles() as $elt): ?>
+<link rel="stylesheet" type="text/css" href="<?php echo $elt; ?>"/>
+<?php endforeach; ?>
+
+<?php foreach($this->getLibs() as $elt): ?>
+<script type="text/javascript" src="<?php echo $this->getLibFile($elt); ?>"></script>  
+<?php endforeach; ?>
+
+   </head>
+
+   <body>
+
+     <div id="BSApplication" class="Application">
+
+<?php
+
+   $this->renderWindow();
+
+?>
+
+     </div>
+
+     <script type="text/javascript">
+       <?php echo $this->renderJS(); ?>
+     </script>
+
+</body>
+</html>

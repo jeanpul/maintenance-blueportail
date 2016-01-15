@@ -1,0 +1,81 @@
+<div class="DashBoardsPanel">
+<div class="Panel Panel-one Panel-hcenter Panel-blue">
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+
+$params = array_merge( array( "step" => 0 ), 
+		       $this->getParams() );
+
+if($params["step"] == 0)
+  {
+?>
+
+<div class="Panel-namearea">Select a file to upload</div>
+<form id="UpdateUploadForm" action="/BlueSystem/UpdateUpload.php" enctype="multipart/form-data" method="POST">
+<input type="file" name="upfile"/>
+<input type="hidden" name="step" value="1" />
+</form>
+    <button class="btn" onclick="BlueSystem.ModuleFormApply({'id':'UpdateUpload','class':'UpdateUploadHTML'});">Apply</button>
+
+<?php
+  }
+else if($params["step"] == 1)
+  {
+    if(isset($_FILES["upfile"]))
+      {
+	$tmpfile= "/tmp/tmpUpdate.run";
+	if(move_uploaded_file($_FILES["upfile"]["tmp_name"], $tmpfile))
+	  {
+	    $tmpname = $_FILES["upfile"]["name"];
+	    $checksum = md5_file($tmpfile);
+	    $res = 0;
+	    $str = "source /etc/BEV/scripts/SystemUpdate/Update.inc\n" . 
+	      "Update_checkUpate $checksum";
+	    $output = array();
+	    $info = exec($str, $output, $res);
+	    $infoElts = explode(" ", $info);
+	    if(is_array($infoElts) and count($infoElts) == 4)
+	      {
+?>
+<p>Update from uploaded file <?php echo $tmpname; ?> already applied.</p>
+<ul>
+<li><?php echo $infoElts[0]; ?></li>
+<li><?php echo $infoElts[1]; ?></li>
+<li><?php echo $infoElts[3]; ?></li>
+</ul>
+<?php
+	      }
+	    else
+	      {
+?>
+<p>Updloaded file : <?php echo $tmpname; ?></p>
+<p>MD5Sum :  <?php echo $checksum; ?></p>
+<form id="UpdateUploadForm" action="/BlueSystem/UpdateUpload.php" method="GET">
+<input type="hidden" name="tmpfile" value="<?php echo $tmpfile; ?>" />
+<input type="hidden" name="name" value="<?php echo $tmpname; ?>" />
+<input type="hidden" name="step" value="2" />
+</form>
+    <button class="btn" onclick="BlueSystem.ModuleFormApply({'id':'UpdateUpload','class':'UpdateUploadHTML'});">Apply</button>
+
+<?php
+	     }
+	  }
+      }
+  }
+else if($params["step"] == 2)
+  {
+    $name = urldecode($params["name"]);
+    $tmpfile = urldecode($params["tmpfile"]);
+    $str = "source /etc/BEV/scripts/BlueSystem/Logs.inc\n" . 
+      "source /etc/BEV/scripts/SystemUpdate/Update.inc\n" . 
+      "Update_apply $name $tmpfile\n";
+    exec($str);
+    echo "Update from file $name applied.";
+  }
+    
+?>
+
+</div>
+</div>

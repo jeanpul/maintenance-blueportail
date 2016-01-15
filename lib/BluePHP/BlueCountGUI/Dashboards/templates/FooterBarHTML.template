@@ -1,0 +1,29 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+$cname = $this->getClass();
+$params = $this->getPanel();
+$leftText = $params["leftText"];
+$middleText = $params["middleText"];
+$rightText = $params["rightText"];
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$jsonOptions = json_encode($params, JSON_NUMERIC_CHECK);
+
+?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+  <div class="Panel-left"><?php echo $leftText; ?></div>
+  <div class="Panel-middle"><?php echo $middleText; ?></div>
+  <div class="Panel-right"><?php echo $rightText; ?></div>
+</div>
+<script type="text/javascript">
+    $(document).ready( function() {
+      Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	  FooterBar.Init(<?php echo $jsonOptions; ?>);
+	});
+    });
+</script>

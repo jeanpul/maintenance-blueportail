@@ -1,0 +1,6 @@
+
+<?php if($this->isEnabled()): ?>
+<a id='bqbhserver' href='/BQBHConfig/BQBHServerList.php'>B-Queue Server</a>
+<?php else: ?>
+<span id='bqbhserveroff'>B-Queue Server</span>
+<?php endif; ?>

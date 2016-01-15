@@ -1,0 +1,8 @@
+<div class="BSBackButton" id="<?php $this->getId(); ?>">
+<form action="<?php echo $this->getURL(); ?>" method="get">
+<?php foreach($this->getForm() as $name => $value): ?>
+<input type="hidden" name="<?php echo $name; ?>" value="<?php echo $value; ?>" />
+<?php endforeach; ?>
+<button id="Home" type="submit" value="<?php echo $this->getLabel(); ?>"><?php echo $this->getLabel(); ?></button>
+</form>
+</div>

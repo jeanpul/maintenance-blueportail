@@ -1,0 +1,6 @@
+
+<?php if($this->isEnabled()): ?>
+<a id="network" href="/BlueSystem/NetworkConfiguration.php">Network configuration</a>
+<?php else: ?>
+<span id="networkOff">Network configuration</span>
+<?php endif; ?>

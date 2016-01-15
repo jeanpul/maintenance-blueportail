@@ -1,0 +1,71 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+
+$cname = $this->getClass();
+$idgraph = $cname . "Graph_" . $this->getId();
+$iddate = "DatePicker_" . $this->getId();
+$iddatealt = "DatePickerAlt_" . $this->getId();
+$params = $this->getPanel();
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$params = array_merge( array( "container" => $idgraph,
+			      "TimeStr" => strftime("%Y%m%d000000") 
+			      ), 
+		       $params );
+
+$jsonOptions = json_encode($params , JSON_NUMERIC_CHECK); 
+
+$optionsCb = "";
+
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+  <div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+<?php
+  if($params["withCalendar"])
+    {
+      $optionsCb .= "options.TimeStr = $(\"#$iddatealt\").val();\n";
+?>
+<input id="<?php echo $iddate; ?>" value="<?php echo strftime('%m/%d/%Y'); ?>"/>
+<input id="<?php echo $iddatealt; ?>" type="hidden" value="<?php echo $params['TimeStr']; ?>"/>
+<?php
+     }
+?>
+    <div class="Panel-title"><img src="/BlueSystem/styles/time_gauge.png"> Wait time</div>
+    <div class="Panel-namearea"><?php echo $params["label"]; ?></div>
+    <div class="Panel-params">
+    </div>
+  </div>
+<div class="Panel-graph">
+<div id="<?php echo $idgraph; ?>" class="graph" />
+</div>
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready( function() {
+      Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	  WaitingTimeCompDay.Init(<?php echo $jsonOptions; ?>);
+<?php
+  if($params["withCalendar"])
+    {
+?>
+	  $("#<?php echo $iddate; ?>").datepicker({
+	        'altField': "#<?php echo $iddatealt; ?>",
+		'altFormat': 'yymmdd000000' 
+		});
+	  $("#<?php echo $iddate; ?>").change(function() { 
+	      var options = <?php echo $jsonOptions; ?>;
+	      <?php echo $optionsCb; ?>
+	      WaitingTimeCompDay.Init(options);
+	    });
+<?php
+    }
+?>
+	});
+    });
+
+</script>

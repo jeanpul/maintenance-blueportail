@@ -1,0 +1,25 @@
+<?php 
+
+$json = $this->getStringParams();
+
+?>
+
+<div id="<?php echo $this->getId(); ?>" title="<?php echo $this->getTitle(); ?>">
+<p>
+<?php echo $this->getMsg(); ?>
+</p>
+<?php 
+  if($this->getFrame()) 
+    {
+      $this->getFrame()->render();
+    }
+?>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+    $("#<?php echo $this->getId(); ?>").dialog( <?php echo $json; ?> );
+});
+
+</script>

@@ -1,0 +1,65 @@
+<?php
+
+$data = $this->getStatus();
+
+?>
+
+<div id="<?php echo $this->getId(); ?>" class="TechFileTable">
+<ul>
+  <h3>Status information</h3>
+  <table class="InfoWeb">
+    <tbody>
+      <tr>
+	<td>State:</td>
+	<td><?php echo $data["Etat"]; ?></td>
+      </tr>
+      <tr>
+	<td>License:</td>
+	<td><?php echo $data["License"]; ?></td>
+      </tr>
+      <tr>
+	<td>Camera(s):</td>
+	<td><?php echo $data["NbCapteur"]; ?></td>
+      </tr>
+    </tbody>
+  </table>
+</ul>
+<ul>
+  <h3>Hardware information</h3>
+  <table class="InfoWeb">
+    <tbody>
+      <tr>
+	<td>MAC Address:</td>
+	<td><?php echo $data["AdresseMAC"]; ?></td>
+      </tr>
+      <tr>
+	<td>IP Address:</td>
+	<td><?php echo $data["Serveur"]; ?></td>
+      </tr>
+    </tbody>
+  </table>
+</ul>
+<ul>
+  <h3>System information</h3>
+  <table class="InfoWeb">
+    <tbody>
+      <tr>
+	<td>Project number:</td>
+	<td><?php echo $data["NumeroP"]; ?></td>
+      </tr>
+      <tr>
+	<td>Version:</td>
+	<td><?php echo $data["Version"]; ?></td>
+      </tr>
+      <tr>
+	<td>Ref:</td>
+	<td><?php echo $data["Ref"]; ?></td>
+      </tr>
+      <tr>
+	<td>Id:</td>
+	<td><?php echo $data["ID"]; ?></td>
+      </tr>
+    </tbody>    
+  </table>
+</ul>
+</div>

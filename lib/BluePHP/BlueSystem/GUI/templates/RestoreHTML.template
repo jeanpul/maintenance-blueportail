@@ -1,0 +1,121 @@
+<div class="DashBoardsPanel">
+<div class="Panel Panel-one Panel-hcenter Panel-blue">
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+
+$params = array_merge( array( "step" => 0 ), 
+		       $this->getParams() );
+
+if($params["step"] == 0)
+  {
+?>
+
+<div class="Panel-namearea">Upload a backup file</div>
+<form id="RestoreForm" action="/BlueSystem/Restore.php" enctype="multipart/form-data" method="POST">
+<input type="file" name="upfile" />
+<input type="hidden" name="step" value="1" />
+</form>
+<button class="btn" onclick="BlueSystem.ModuleFormApply({'id':'Restore','class':'RestoreHTML'});">Apply</button>
+
+<?php
+  }
+else if($params["step"] == 1)
+  {
+    if(isset($_FILES["upfile"]))
+      {
+	$RESTORE_TMPFILE="/tmp/tmpRestore.tgz";
+	if(move_uploaded_file($_FILES["upfile"]["tmp_name"], $RESTORE_TMPFILE))
+	  {
+	    $restoreMD5 = exec('$(md5sum ' . $RESTORE_TMPFILE . ' | awk -F " " \'{printf $1}\'' . ")");
+	    $str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+	      "Restore_extractDataFromImport " . $RESTORE_TMPFILE . "\n" .
+	      'echo RESTORE_RES=$?' . "\n" . 
+	      'echo RESTORE_ArchiveDate=$RESTORE_ArchiveDate' . "\n" . 
+	      'echo RESTORE_ArchiveRef=$RESTORE_ArchiveRef' . "\n";
+	    $output = array();
+	    exec($str, $output);
+	    $res = parseSimplePairValues($output);
+	    if($res["RESTORE_RES"] == 1)
+	      {
+		echo "<h3>Unable to extract archive</h3>";
+	      }
+	    else if($res["RESTORE_RES"] == 2)
+	      {
+		echo "<h3>Incorrect archive : unable to find BackupSettings/Content.txt file</h3>";
+	      }
+	    else
+	      {
+		echo "<p>Date : " . $res["RESTORE_ArchiveDate"] . "</p>\n";
+		echo "<p>Reference : " . $res["RESTORE_ArchiveRef"] . "</p>\n";
+	      }
+	    
+	    if($res["RESTORE_RES"] == 0)
+	      {		
+		system("(cd /tmp && tar zxf $RESTORE_TMPFILE BackupSettings/BackupRestore.cfg)");
+		$CONTENTTMPFILE="/tmp/BackupSettings/BackupRestore.cfg";
+		$str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+		  'echo $(Restore_processModuleList ' . $CONTENTTMPFILE . ' Restore_HTML_inputModuleLine)' . "\n";
+?>
+
+<h3>Select elements to import from the backup</h3>
+<form id="RestoreForm" action="/BlueSystem/Restore.php" method="GET">
+<?php echo exec($str); ?>
+<input type="hidden" name="step" value="2" />
+</form>
+<button class="btn" onclick="BlueSystem.ModuleFormApply({'id':'Restore','class':'RestoreHTML'});">Apply</button>
+
+<?php
+	      }
+	    else
+	      {
+		echo "<p>Your archive seems an old backup and is not supported by this system version. Please contact BlueEyeVideo.</p>\n";	    
+	      }
+	  }
+	else
+	  {
+	    echo "Cannot create temporary restore file";
+	  }
+      }
+  }
+else if($params["step"] == 2)
+  {
+    $str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+      "Restore_startImport\n" . 
+      'echo RESTORE_RES=$?' . "\n" . 
+      'echo RESTORE_Dir=$RESTORE_Dir' . "\n";
+    $output = array();
+    exec($str, $output);
+    $res = parseSimplePairValues($output);
+
+    if($res["RESTORE_RES"] != "0")
+      {
+	echo "Unable to find BackupSettings\n";
+      }
+    else
+      {
+	$strParams = "";
+	foreach($params as $k => $v)
+	  {
+	    $strParams .= "QS_" . $k . "=" . $v . "\n";
+	  }
+	$str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+	  $strParams . 
+	  'echo $(BackupRestore_processModuleList BlueSystem Restore_HTML_selectedModuleLine)' . "\n";
+	echo exec($str);
+
+	$str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+	  $strParams . 
+	  'BackupRestore_loadNeededFunctionForModule BlueSystem' . "\n" .  
+	  'Restore_processModuleList ' . $params["RESTORE_Dir"] . '/BackupRestore.cfg Restore_restoreOfModuleLine' . "\n" .
+	  'Restore_endImport' . "\n";
+	exec($str);
+	echo "Import done\n";
+      }
+  }
+    
+?>
+
+</div>
+</div>

@@ -1,0 +1,146 @@
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogSubmit.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogInfo.inc");
+include_once("BluePHP/BlueSystem/BlueSystem.inc");
+include_once("BluePHP/BlueSystem/Installation.inc");
+
+$params = $this->getParams();
+
+if($params["step"] == 0)
+  {
+    $bs = new BlueSystem();
+
+    if($bs->isLive())
+      {
+	$module = new Installation();
+
+	if(!$module->isRunning())
+	  {
+	    $hds = $module->getHardDisks();
+	    if(count($hds))
+	      {
+                $str = '<p class="warning">The installation on hard disk will destroy' . 
+		  ' all data on the selected hard drive device.</p>';
+		$str .= "<form id='InstallationForm'>\n";
+		$str .= "<table>\n"; 
+		$str .= createTableRow(array( _("Hard drive label"),
+					      createSelect($hds,
+							   array( "name" => "SYSTEM_DEVICE" ))));
+		$str .= "</table>\n";
+		$str .= createInputHidden("step", 1);
+		$str .= "</form>\n";
+		
+		$dialog = new BSDialogSubmit("Installation",
+					     array( "title" => "System installation",
+						    "msg" => $str));
+		$dialog->eventSubmit(BS_eventRenderWithForm("BlueSystem.InstallationHTML", $this->getId(),
+							    "InstallationForm"));
+		$dialog->render();
+	      }
+	    else
+	      {
+		$str = "No HD drive found, please check your hardware configuration " . 
+		  "then contact the support.";
+		$dialog = new BSDialogInfo("Installation",
+					   array("title" => "System installation message",
+						 "msg" => $str));
+		$dialog->setModal(true);
+		$dialog->render();
+	      }
+	  }
+	else
+	  {
+	    $str = "The system is currently on the installation phase." . 
+	      "Please wait until the operation is done";
+	    $dialog = new BSDialogInfo("Installation",
+				       array("title" => "System installation message",
+					     "msg" => $str));
+	    $dialog->setModal(true);
+	    $dialog->render();
+	  }
+      }
+    else
+      {
+	$str = "The system can only be installed using the live cd session.";
+	$dialog = new BSDialogInfo("Installation",
+				   array("title" => "System installation message",
+					 "msg" => $str));
+	$dialog->setModal(true);
+	$dialog->render();
+      }
+  }
+else if($params["step"] == 1)
+  {
+    $module = new Installation();
+    $module->startInstallation($params);
+
+    $str = "<p>The installation is in progress. Please wait until the message " .
+      "<i>Installation done</i> is displayed.</p>" . 
+      "<h3>Installation messages</h3>" . 
+      "<div id='InstallMsg' >Installation start</div>" . 
+      "<div id='InstallProgressBar'></div>";
+    $dialog = new BSDialogInfo("Installation",
+			       array( "title" => "Installation process...",
+				      "msg" => $str));
+    $dialog->setModal(true);
+    $dialog->setDraggable(false);
+    $dialog->setResizable(false);
+    $dialog->setClosable(false);
+    $dialog->render();
+?>
+<style>
+   .ui-progressbar-value { background-image: url('/BlueSystem/styles/animated_progress_bar.gif'); }
+</style>
+<script type="text/javascript">
+    function CheckInstallStatus(idInstall) {
+	BlueSystem.callModuleFunction({ 'class': 'Installation',
+					'function': 'checkStatus',
+					success: function(data)
+					{
+					    if(data.onInstall == true)
+					    {		
+						$('#InstallMsg').html(data.SYSTEM_INSTALL_MSG);
+						$('#InstallProgressBar').progressbar("value", parseInt(data.SYSTEM_INSTALL_STEP));
+						setTimeout(function() { CheckInstallStatus(idInstall);}, 5000);
+					    }
+					    else
+					    {
+<?php 
+					      echo $dialog->eventClose();
+					      echo BS_eventRender("BlueSystem.InstallationHTML", array( "step" => 2 )); 
+?>
+					    }
+					}
+				      });
+    }
+
+  $(document).ready( function() {
+      $('#InstallProgressBar').progressbar({"value": 0});
+      CheckInstallStatus("InstallationStatus"); 
+    });
+</script>
+<?php
+  }
+else if($params["step"] == 2)
+  {
+    $str = "<p>Installation done. Click <a style='color: black;' onclick='RebootAfterInstall();' href='#'>here</a> to restart the system.</p>";
+    $dialog = new BSDialogInfo("Installation",
+			       array( "title" => "Installation done",
+				      "msg" => $str));
+    $dialog->setModal(true);
+    $dialog->render();    
+?>
+<script type="text/javascript">
+   function RebootAfterInstall() {      
+      <?php 
+      echo $dialog->eventClose(); 
+      echo BS_eventRender("BlueSystem.RebootHTML", "?step=1"); 
+      ?>      
+    }
+</script>
+<?php
+  }
+?>

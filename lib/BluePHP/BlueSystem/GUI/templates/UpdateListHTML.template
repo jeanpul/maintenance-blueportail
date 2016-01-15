@@ -1,0 +1,48 @@
+<div class="DashBoardsPanel">
+<div class="Panel Panel-two Panel-hcenter Panel-blue">
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/BlueSystem/UpdateList.inc");
+
+$str = "<div class='Panel-namearea'>System Update List</div>";
+
+$module = new UpdateList();
+$elts = $module->getUpdateList();
+if(count($elts))
+  {
+    $str .= "<table id='UpdateListTable' class='display'>\n";
+    $str .= "<thead>";
+    $str .= createTableRow(array( _("Date"), 
+				  _("Checksum"),
+				  _("File"),
+				  _("Return Code") ), 
+			   array( "type" => "th" ));
+    $str .= "</thead>";
+    $str .= "<tbody>";
+    foreach($elts as $e)
+      {
+	$str .= createTableRow(array( $e["date"],
+				      $e["md5sum"],
+				      $e["file"],
+				      $e["ret"] ));
+      }
+    $str .= "</tbody>\n";
+    $str .= "</table>\n";
+  }
+else
+  {
+    $str .= "No update listed.";
+  }
+
+?>
+
+<?php echo $str; ?>
+
+</div>
+</div>
+
+<script type="text/javascript">
+$('#UpdateListTable').dataTable({'bJQueryUI': true});
+</script>

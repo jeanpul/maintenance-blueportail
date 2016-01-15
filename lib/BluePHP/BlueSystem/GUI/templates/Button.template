@@ -1,0 +1,4 @@
+<button id="<?php echo $this->getId(); ?>" type="button">
+<?php echo $this->getLabel(); ?>
+</button>
+

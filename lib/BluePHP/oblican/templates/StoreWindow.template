@@ -1,0 +1,6 @@
+<div class="sixteen columns">
+  <form id="<?php $this->getId(); ?>" class="oll-input">
+    <input type="text" id="regularInput" name="o" />
+    <button type="submit">store</button>
+  </form>
+</div>

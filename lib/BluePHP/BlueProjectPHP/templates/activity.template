@@ -1,0 +1,13 @@
+<div class="Activity" id="<?php echo $this->getId(); ?>">
+<?php
+$tab = $this->getActivityTabular();
+echo $tab->toString();
+?>
+
+</div>
+
+<script>
+$(document).ready( function() {
+    createDataTableActivity();
+});
+</script>

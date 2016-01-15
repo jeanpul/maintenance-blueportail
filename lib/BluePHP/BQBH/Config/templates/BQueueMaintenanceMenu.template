@@ -1,0 +1,38 @@
+<?php
+
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+$bsa = new BSAddresses();
+$bqs = new BQBHServerLicense();    
+
+$table = new MenuTable("", array( new MenuBarEntry('network',
+						   array( "address" => "bqbh_main.network" ),
+						   $bsa->getLabel("bqbh_main.network")),
+				  new MenuBarEntry("time",
+						   array( "address" => "bqbh_main.time" ),
+						   $bsa->getLabel("bqbh_main.time")),
+				  new MenuBarEntry("license",
+						   array( "address" => "bqbh_main.license" ),
+						   $bsa->getLabel("bqbh_main.license")),
+				  new MenuBarEntry('maintenance',
+						   array( "address" => "bqbh_main.config" ),
+						   $bsa->getLabel("bqbh_main.config")),
+				  new MenuBarEntry('maintenance',
+						   array( "address" => "bqbh_main.validation" ),
+						   $bsa->getLabel("bqbh_main.validation")),
+				  new MenuEntryButton("terminal",
+						      _("Terminal"),
+						      array( "onClick" => 'BlueSystem.TerminalStart({"id":"terminalDialog"});' )),
+				  new MenuBarEntry('cameras', 
+						   array( "address" => "bqbh_main.cameras" ),
+						   $bsa->getLabel("bqbh_main.cameras"),
+						   array( "enabled" => $bqs->nbSensorMax() > 0 )),
+				  new MenuBarEntry('bqserver',
+						   array( "address" => "bqbh_main.queueareas" ),
+						   $bsa->getLabel("bqbh_main.queueareas"),
+						   array( "enabled" => $bqs->nbServerMax() > 0 ))
+				  ),		       		
+		       null);
+$table->render();
+
+?>

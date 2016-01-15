@@ -1,0 +1,148 @@
+
+body {
+	background-color: #e4e4e4; 
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	color: black;
+	padding: 0px 0px;
+        margin: 0px 0px;
+}
+
+div.ShadowLeft {
+	background: url("ShadowLeft.gif") repeat-y left;
+	width: 984px;
+        margin: 0 auto;
+}
+
+div.ShadowRight {
+	background: url("ShadowRight.gif") repeat-y right;
+	width: 984px;
+}
+
+div.MiddlePart {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 200px;
+	background: white url("Background.jpeg"); 
+	background-repeat: no-repeat;	
+	margin-left: auto;
+	margin-right: auto;
+	width: 950px; 
+	border: none; 
+}
+
+div.MiddlePart h1 {
+	clear: both;
+	color: black;
+	text-decoration: underline; 
+	font-size: 160%;
+	padding-left: 10px;
+	margin-top: 30px;
+}
+
+div.MiddlePart p {
+	padding-left: 10px;
+}
+
+div.Section {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border: solid 2px #0b58c2;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+div.Section h1 {
+    text-decoration: none;
+    background: none;
+    background-color: #0b58c2; 
+    color: white;
+    font-size: 120%;
+    margin: 0px 0px 0px 0px; 
+    padding: 0px 0px 0px 0px;
+}
+
+/**
+ * Horizontal menu with bar style
+ * used for the top and bottom bars.
+ * Use fixed width to prevent MSIE to
+ * destroy the layout
+ */
+div.Bars {
+     clear: both;
+     background: white;
+     font-size: 100%;
+     overflow: hidden;
+     line-height: normal; 
+     border-top: solid 1px #0b58c2; 	
+     border-bottom: solid 1px #0b58c2; 	
+}
+
+div.Bars ul {
+     margin: 0 0;
+     padding: 0 0;
+     list-style: none;
+}
+
+div.Bars li {
+     color: black;
+     float: left; 
+     margin: 0;
+     padding: 0px 0px;
+     border: none;
+}
+
+div.Bars a {
+    display: block;
+    float: left;
+    padding: 5px 5px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div.Bars a:link, div.Bars a:visited {
+    color: black;
+}
+
+div.Bars li:hover, div.Bars li#current, div.Bars a:hover, div.Bars a#current {
+    background: #0b58c2; 
+    color: white;
+}
+
+div#BottomMenu {
+     font-size: 80%;
+     padding-left: 10px;
+     background: #0b58c2;
+     color: white;
+}
+
+div#LogoBar {
+	display: inline;
+	background-image: url("Background.jpeg");
+	height: 0px;
+	width: 0px;
+} 
+
+div.TwoColumns {
+	border: 1px solid #000000;
+	overflow: hidden;
+	width: 100%;
+}
+
+div.TwoColumns div.Left {
+	width: 70%;
+	float: left;
+}
+
+div.TwoColumns div.Right {
+	width: 20%;
+	float: right;
+}
+
+div.TwoColumns img {
+        border: none;
+        margin-top: 5px;
+}
+
+

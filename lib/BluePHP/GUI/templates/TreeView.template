@@ -1,0 +1,32 @@
+<?php
+
+function render_node($elts)
+{
+  foreach($elts as $k => $v)
+    {
+      if(is_array($v))
+	{
+	  echo "<li><span class='folder'>$k</span>\n<ul>\n";	  
+	  render_node($v);
+	  echo "</ul>\n</li>\n";
+	}
+      else
+	{
+	  echo "<li><span class='file'>$v</span></li>\n";
+	}
+    }
+}
+
+?>
+
+<div id="<?php echo $this->getId(); ?>">
+<div id="sidetree">
+<div class="treeheader">test</div>
+<div id="sidetreecontrol"></div>
+<ul id="tree" class="filetree">
+
+<?php render_node($this->getElts()); ?>
+
+</ul>
+</div>
+</div>

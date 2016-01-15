@@ -1,0 +1,38 @@
+<div class="Panel Panel-two Panel-hcenter Panel-blue">
+<div class="Panel-namearea">B-Queue software license information</div>
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/GUI/DialogWarning.inc");
+include_once("BluePHP/GUI/DialogInfo.inc");
+include_once("BluePHP/BQBH/BQBHServerLicense.inc");
+
+
+$module = new BQBHServerLicense();
+
+if($module->haveLicenseFiles())
+  {
+    $msg = "<table>\n";
+    $msg .= createTableRow( array( "Maximum number of areas available :",
+				   $module->nbServerMax() ));
+    $msg .= createTableRow( array( "Maximum number of cameras available per area :",
+				   $module->nbSensorMax() ));
+    $msg .= "</table>\n";
+    $dial = new DialogInfo("", array( "title" => "",
+				      "msg" => $msg ),
+			   null);
+    $dial->render();
+  }
+else
+  {
+    $dial = new DialogWarning("", array( "title" => "",
+					"msg" => "License files not installed."),
+			     null);
+    $dial->render();
+  }
+
+
+?>
+
+</div>

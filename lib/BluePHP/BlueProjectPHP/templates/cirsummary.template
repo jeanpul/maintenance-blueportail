@@ -1,0 +1,8 @@
+<?php
+
+echo "<h3>" . _("Work summary") . "</h3>\n";
+
+echo $this->makeSummary();
+
+
+?>

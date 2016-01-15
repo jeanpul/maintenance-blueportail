@@ -1,0 +1,59 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$clang = new BlueCountLang();
+$NbLocations = $clang->getNumberOfLocations();
+$NbDoors = $clang->getNumberOfDoors();
+
+$table = new MenuTable("",
+		       array( new MenuEntryButton('locations',
+						  $bsa->getLabel("qms_conf.entities.locations"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.entities.locations")),
+							 'text' => $bsa->getInfo("qms_conf.entities.locations")
+							 )
+						  ),
+			      new MenuEntryButton('doors',
+						  $bsa->getLabel("qms_conf.entities.doors"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass('qms_conf.entities.doors')),
+							 'text' => $bsa->getInfo("qms_conf.entities.doors"),
+							 "enabled" => $NbLocations > 1
+							 )
+						  ),
+			      new MenuEntryButton('groups',
+						  $bsa->getLabel("qms_conf.entities.groups"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass('qms_conf.entities.groups')),
+							 'text' => $bsa->getInfo('qms_conf.entities.groups'), 
+							 "enabled" => ($NbDoors > 0) 
+							 )
+						  ),
+			      new MenuEntryButton('areas',
+						  $bsa->getLabel("qms_conf.entities.areas"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass('qms_conf.entities.areas')),
+							 'text' => $bsa->getInfo('qms_conf.entities.areas'),
+							 "enabled" => ($NbLocations > 1)
+							 )
+						  ),
+			      new MenuEntryButton('btopsensors', 
+						  $bsa->getLabel("qms_conf.entities.btops"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass('qms_conf.entities.btops')),
+							 "text" => $bsa->getInfo("qms_conf.entities.btops"), 
+							 "enabled" => ($NbDoors > 0) 
+							 )
+						  ),
+			      new MenuEntryButton('bqueuesensors', 
+					       $bsa->getLabel("qms_conf.entities.bqs"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass('qms_conf.entities.bqs')),
+							 "text" => $bsa->getInfo("qms_conf.entities.bqs"), 
+							 "enabled" => ($NbLocations > 0)
+							 )
+						  )
+			      ),
+		       null);
+$table->render();
+
+?>

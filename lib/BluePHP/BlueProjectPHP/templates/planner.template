@@ -1,0 +1,7 @@
+
+<div class="Planner" id="<?php echo $this->getId(); ?>">
+<h3>Working time activity for <?php echo $this->params["month"] . "/" . $this->params["year"]; ?></h3>
+<?php
+echo $this->makeTimeTable();
+?>
+</div>

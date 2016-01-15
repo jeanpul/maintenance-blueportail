@@ -1,0 +1,56 @@
+<?php
+
+include_once("BluePHP/BlueCountGUI/Dashboards/ContainerPanels.inc");
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+$cname = $this->getClass();
+$params = $this->getPanel();
+$label = $params["label"];
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$m = new ContainerPanels();
+$dashboards = $m->getEntriesForPanel( array( "id" => $this->getId() ) );
+
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+
+<?php
+
+  $strLinks = "<ul>";
+$strContent = "";
+
+foreach($dashboards as $v) 
+{
+  $strLinks .=  "<li><a href='#tabs-" . $v["position"] . "'>" . $v["label"] . "</a></li>";
+  $strContent .= "<div id='tabs-" . $v["position"] . "' class='TabPanel'>";
+  // DashboardsRender is already done so we only render contained panels
+  $dr = new DashboardsRender("", array( "id" => $v["idd"] ));
+  $strContent .= "<div class='DashBoardsPanel'>";
+  foreach($dr->getPanels() as $p)
+    {
+      $strContent .= "<div id=\"position-" . $p->getPosition() . "\">";
+      $strContent .= $p->renderAsStr();
+      $strContent .= "</div>";
+    }
+  $strContent .= "</div>\n";
+  $strContent .= "</div>";
+}
+
+$strLinks .= "</ul>";
+
+echo $strLinks;
+echo $strContent;
+
+?>
+
+</div>
+
+<script type="text/javascript">
+  $(document).ready( function() {
+      $("#<?php echo $idpanel; ?>").tabs();
+      Dashboards.addLastMinuteCb(function(idx) { $(window).resize(); });
+    });
+</script>

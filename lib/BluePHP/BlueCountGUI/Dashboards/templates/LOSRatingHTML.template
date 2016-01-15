@@ -1,0 +1,44 @@
+<?php
+
+$jsName = "/BlueCountGUI/Dashboards/js/" . $this->getClass() . ".js";
+$cssName = "/BlueCountGUI/Dashboards/styles/" . $this->getClass() . ".css"; 
+
+$params = $this->getPanel();
+$label = $params["label"];
+$numId = $params["numId"];
+$idflow = $this->getClass() . "Flow-" . $this->getId();
+$classes = "Panel Panel-" . $params["size"] . " Panel-" . $params["category"];
+
+?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+
+<div class="<?php echo $classes; ?>">
+
+<div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+  <div class="Panel-title"><img src="/BlueSystem/styles/people_panel.png"> Level Of Service</div>
+  <div class="Panel-namearea"><?php echo $label; ?></div>
+</div>
+
+  <div class="losrating">
+  <ul>
+  <li>LOS rating: <strong>B</strong></li>
+  <li>Queue density: <strong>1.4 m²/pax</strong></li>
+  <li>Avg wait time: <strong>95% pax &lt; 15 min</strong></li>
+  <li>Total PAX: <strong>5 421 pax</strong></li>
+  </ul>
+  </div>
+
+</div>
+
+<script type="text/javascript">		
+
+  $(document).ready( function() {
+      Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	  LOSRating.Init({"id": <?php echo $numId; ?>,
+		"idflow": "<?php echo $idflow; ?>"
+		  });
+	}); 
+    });
+
+</script>

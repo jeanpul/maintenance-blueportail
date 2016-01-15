@@ -1,0 +1,13 @@
+<?php
+
+include_once("BluePHP/BTopLocalServer/BTopLocalServerFrame.inc");
+
+class ServerSyncHTML extends BTopLocalServerFrame
+{
+  public function __construct($id, $params)
+  {
+    parent::__construct($id, "ServerSync");
+  }
+}
+
+?>

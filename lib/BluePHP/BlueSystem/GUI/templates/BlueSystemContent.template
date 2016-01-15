@@ -1,0 +1,59 @@
+
+ <div id="subMenu" class="BreadCrumpsMenu Menu">
+    <ul class="navigation"></ul>
+ </div>
+
+ <div id="activeWindow" class="ActiveWindow">
+ </div>
+
+<script type="text/javascript">
+
+   $(document).ready( function() {
+
+<?php
+include_once("BluePHP/Utils/js_lang.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+$p = $this->getParams();
+
+// remove reserved parameters
+// send others to the active window
+$classParams = array();
+foreach($p as $k => $v)
+  {
+    if(substr($k, 0, 2) != "__")
+      {
+	$classParams[$k] = $v;
+      }
+  }
+
+$bsa = new BSAddresses();
+
+$className = $bsa->getClass($p["address"]);
+
+echo js_funcall(array( "function" => "BlueSystem.callClassHTML",
+		       "options" => array( "id" => "", //$className,
+					   "class" => $className,
+					   "render" => "activeWindow",
+					   "params" => $classParams )
+		       ));
+
+// now retrieve links that should be available on the breadcrumps sub menu bar
+$pathElts = explode(".", $p["address"]);
+$curPath = "";
+foreach($pathElts as $elt)
+  {
+    if($curPath != "")
+      {
+	$curPath .= ".";
+      }
+    $curPath .= $elt;
+    $this->pushLinksElt(array( "address" => $curPath,
+			       "label" => $bsa->getLabel($curPath)));
+  }
+?>
+
+     });
+
+</script>
+

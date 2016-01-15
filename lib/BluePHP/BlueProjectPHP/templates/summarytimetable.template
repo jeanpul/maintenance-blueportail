@@ -1,0 +1,8 @@
+<div class="SummaryTimeTable" id="<?php echo $this->getId(); ?>">
+<h3>Working summary</h3>
+<?php
+$tabs = $this->getSummaryTimeTable();
+echo $tabs[0]->toString();
+echo $tabs[1]->toString();
+?>
+</div>

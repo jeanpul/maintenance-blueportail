@@ -1,0 +1,61 @@
+<?php
+
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+include_once("BluePHP/GUI/MenuEntryButton.inc");
+
+$bsa = new BSAddresses();
+
+$clang = new BlueCountLang();
+$NbLocations = $clang->getNumberOfLocations();
+$NbNumberingAreas = $clang->getNumberOfNumberingAreas();
+$NbDoors = $clang->getNumberOfDoors();
+
+$table = new MenuTable("", 
+		       array( new MenuEntryButton('visitors', 
+						  $bsa->getLabel("qms_conf.indicators.visitors"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.visitors")),
+							 "text" => $bsa->getInfo("qms_conf.indicators.visitors"),
+							 "enabled" => ($NbLocations > 0 ))
+						  ),
+			      new MenuEntryButton('flows', 
+						  $bsa->getLabel("qms_conf.indicators.flows"),
+						  array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.flows")),
+							 "text" => $bsa->getInfo("qms_conf.indicators.flows"),
+							 "enabled" => ($NbDoors > 0))
+						  ),
+			      new MenuEntryButton('numbering', 
+					       $bsa->getLabel("qms_conf.indicators.numbering"),
+					       array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.numbering")),
+						      "text" => $bsa->getInfo("qms_conf.indicators.numbering"),
+						      "enabled" => ($NbLocations > 0))
+						  ),
+			      new MenuEntryButton('waitingtime', 
+					       $bsa->getLabel("qms_conf.indicators.wt"),
+					       array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.wt")),
+						      "text" => $bsa->getInfo("qms_conf.indicators.wt"),
+						      "enabled" => ($NbDoors and $NbNumberingAreas))
+						  ),
+			      new MenuEntryButton('processingtime', 
+					       $bsa->getLabel("qms_conf.indicators.pt"), 
+					       array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.pt")),
+						      "text" => $bsa->getInfo("qms_conf.indicators.pt"), 
+						      "enabled" => ($NbDoors))
+						  ),
+			      new MenuEntryButton('numbering', 
+					       $bsa->getLabel("qms_conf.indicators.overflow"), 
+					       array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.overflow")),
+						      "text" => $bsa->getInfo("qms_conf.indicators.overflow"),
+						      "enabled" => ($NbDoors))
+						  ),
+			      new MenuEntryButton('waitingtime', 
+					       $bsa->getLabel("qms_conf.indicators.wt_pred"), 
+					       array( 'onClick' => BS_eventRender($bsa->getClass("qms_conf.indicators.wt_pred")),
+						      "text" => $bsa->getInfo("qms_conf.indicators.wt_pred"),
+						      "enabled" => ($NbDoors and $NbNumberingAreas))
+						  )
+			      ),
+		       null);
+$table->render();
+
+?>

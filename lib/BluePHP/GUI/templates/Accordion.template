@@ -1,0 +1,10 @@
+<div id="<?php echo $this->getId(); ?>" class="basic">
+
+<?php foreach($this->getElts() as $elt): ?>
+<h3><a href="#"><?php echo $elt->getId() ?></a></h3>
+<div>
+<?php $elt->render(); ?>
+</div>
+<?php endforeach; ?>
+
+</div>

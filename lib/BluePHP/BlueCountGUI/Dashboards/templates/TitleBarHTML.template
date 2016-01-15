@@ -1,0 +1,30 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+$cname = $this->getClass();
+$params = $this->getPanel();
+$label = $params["label"];
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$jsonOptions = json_encode($params, JSON_NUMERIC_CHECK);
+
+?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+  <div class="Panel-title"><?php echo $label; ?></div>
+  <div class="Panel-clock"><span id="jclock"/></div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready( function() {
+      Dashboards.include_once("/JQUERY/jquery.jclock.js", function() {
+	  $("#jclock").jclock({
+	    format: '%A %b %d %H:%M'
+		});
+	});
+    });
+</script>
+

@@ -1,0 +1,26 @@
+<?php
+
+include_once("BluePHP/GUI/MenuBarEntry.inc");
+include_once("BluePHP/BlueSystem/BSAddresses.inc");
+
+
+$bsa = new BSAddresses();
+
+$menuElts = array( new MenuBarEntry( "com",
+				     array( "address" => "bp_com" ),
+				     $bsa->getLabel("bp_com"))
+		   );
+?>
+
+<div id="<?php echo $this->getId(); ?>" class="TabsMenu">
+<ul class="navigation">
+  <?php      
+  foreach($menuElts as $elt)
+    {
+      echo "<li>";
+      echo $elt->render(); 
+      echo "</li>\n";
+    }
+  ?>
+</ul>
+</div>

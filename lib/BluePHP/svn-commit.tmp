@@ -1,0 +1,28 @@
+Corrections pb compatibilite
+--This line, and those below, will be ignored--
+
+M    BlueProjectPHP/Action.inc
+M    BlueProjectPHP/ActionHTML.inc
+M    BlueProjectPHP/ActivityHTML.inc
+M    BlueProjectPHP/BPLang.inc
+M    BlueProjectPHP/CommonOps.inc
+M    BlueProjectPHP/Config.inc
+M    BlueProjectPHP/Familly.inc
+M    BlueProjectPHP/MonthsMenuBar.inc
+M    BlueProjectPHP/PlannerHTML.inc
+M    BlueProjectPHP/SalMenuBar.inc
+M    BlueProjectPHP/YearsMenuBar.inc
+M    BlueProjectPHP/templates/activity.template
+M    BlueSystem/GUI/BSDataTable.inc
+M    BlueSystem/GUI/BSDialogSubmit.inc
+M    BlueSystem/GUI/templates/BSDataTable.template
+M    BlueSystem/GUI/templates/BSModuleInterface.template
+M    GUI/Form.inc
+M    GUI/ModuleInterface.inc
+M    GUI/templates/Form.template
+M    JQUERY/JQueryApplication.inc
+M    Utils/DBConnect.inc
+M    Utils/FormPage.inc
+M    Utils/HTML.inc
+M    Utils/Languages.inc
+M    Utils/Tabular.inc

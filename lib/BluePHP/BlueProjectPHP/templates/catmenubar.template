@@ -1,0 +1,25 @@
+<?php
+echo "<h1>" . _("WorkTime by CIR cat") . "</h1>\n";
+
+echo "toto";
+
+$pageName = $this->params["pageName"];
+$currentCat = $this->params["cir"];
+$str = "<ul class='HList'>\n";
+foreach($this->catNames as $k => $v)
+  {
+    if($currentCat == $v)
+      {
+	$str .= "<li class='Sel'>" . $v . "</li>\n";
+      }
+    else
+      {
+	$this->params["cir"] = $v;
+	$str .= "<li>" . generateHREF($pageName, $v, $this->params) . "</li>\n";
+      }
+  }
+$str .= "</ul>\n";
+
+echo $str;
+
+?>

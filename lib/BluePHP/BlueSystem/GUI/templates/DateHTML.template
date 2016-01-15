@@ -1,0 +1,123 @@
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+include_once("BluePHP/BlueSystem/GUI/BSDialogApply.inc");
+
+$params = $this->getParams();
+
+$module = new Date();
+$params = $module->getEntry($params);
+
+$str = "<form id='DateForm'><fieldset><table>\n";
+
+$str .= createTableRow(array( createInput(array( "type" => "radio",
+						 "id" => "timeMethodLocal",
+						 "name" => "DATE_timeMethod",
+						 "value" => "local",
+						 "checked" => ($params["DATE_timeMethod"] == "local"),
+						 "extra" => "onclick=\"DateHTML_checkDateForm('DateForm')\"")),
+			      _("Use server clock date and time") ));   
+$str .= "</table>\n";
+$str .= "<table>\n";
+$str .= createTableRow(array( _("Set clock"),
+			      createInput(array("type" => "text",
+						"name" => "DATE_localTime",
+						"id" => "DateHTML:localTime",
+						"disabled" => ($params["DATE_timeMethod"] != "local"),
+						"value" => $params["DATE_localTime"] ))));
+$str .= "</table>\n";
+
+$str .= "<table>\n";
+$str .= createTableRow(array( createInput(array( "type" => "radio",
+						 "id" => "timeMethodNTP",
+						 "name" => "DATE_timeMethod",
+						 "value" => "ntp",
+						 "checked" => ($params["DATE_timeMethod"] == "ntp"),
+						 "extra" => "onclick=\"DateHTML_checkDateForm('DateForm')\"")),
+			      _("Use NTP server") ));
+$str .= "<p class='info'>You can synchronize your computer with a server through NTP. An example of server NTP : europe.pool.ntp.org</p>\n";
+$str .= "<table>";
+$str .= createTableRow( array( _("Server"), createInput(array( "type" => "text",
+							       "name" => "DATE_NTPServer",
+							       "disabled" => ($params["DATE_timeMethod"] != "ntp"),
+							       "value" => $params["DATE_NTPServer"] ))));
+$str .= "</table>";
+$str .= "<p class='info'>If you check this box then others computers could use this computer as a time server.</p>";
+$str .= "<table>\n";
+$str .= createTableRow( array( createCheckBox( array( "name" => "DATE_isTimeServer",
+						      "disabled" => ($params["DATE_timeMethod"] != "ntp"),
+						      "value" => "true" ), 
+					       $params["DATE_isTimeServer"] != "" ),
+			       _("is a time server") ));
+$str .= "</table>\n";
+
+$str .= "<table>\n";
+$str .= createTableRow(array( createInput(array( "type" => "radio",
+						 "id" => "timeMethodTime",
+						 "name" => "DATE_timeMethod",
+						 "value" => "time",
+						 "checked" => ($params["DATE_timeMethod"] == "time"),
+						 "extra" => "onclick=\"DateHTML_checkDateForm('DateForm')\"")),
+			      _("Time Server (RFC868 protocol)") ));   
+$str .= createTableRow(array( _("Server"), createInput( array( "type" => "text",
+							       "name" => "DATE_RdateServer",
+							       "disabled" => ($params["DATE_timeMethod"] != "time"),
+							       "value" => $params["DATE_RdateServer"] ))));
+$str .= "</table>\n";
+
+$str .= "<table>\n";
+$str .= createTableRow( array( _("Time Zone"),
+			       createSelect(timezone_identifiers_list(),
+					    array( "name" => "DATE_TIMEZONE",
+						   "default" => $params["DATE_TIMEZONE"] ) )));
+
+$str .= createInputHidden("step", "1");
+
+$str .= "</table></fieldset></form>\n";
+$dialog = new BSDialogApply("Date",
+			    array( "title" => "Time and date settings",
+				   "msg" => $str));
+$dialog->eventSubmit("DateHTML_apply();");
+$dialog->render();
+
+$dialog = new BSDialogInfo("TimeDate",
+			   array( "title" => "Time and date settings...",
+				  "msg" => "<div id='loadingScreen'>Apply time and date settings...</div>"));
+$dialog->setModal(true);
+$dialog->setAutoOpen(false);
+$dialog->setDraggable(false);
+$dialog->setResizable(false);
+$dialog->setClosable(false);
+$dialog->render();
+?>
+
+<script type="text/javascript">
+
+function DateHTML_checkDateForm(id)
+{
+    var DATE_timeMethod = $('#' + id + ' input[name=DATE_timeMethod]:checked').val();
+    $('#' + id + ' input[name=DATE_localTime]').attr('disabled', DATE_timeMethod != "local");
+    $('#' + id + ' input[name=DATE_NTPServer]').attr('disabled', DATE_timeMethod != "ntp");
+    $('#' + id + ' input[name=DATE_isTimeServer]').attr('disabled', DATE_timeMethod != "ntp");
+    $('#' + id + ' input[name=DATE_RdateServer]').attr('disabled', DATE_timeMethod != "time");
+}
+
+function DateHTML_apply()
+{
+  $("#BSDialogInfo_TimeDate").dialog("open");
+  BlueSystem.ModuleFormApply( { "class" : "BlueSystem.DateHTML",
+	"render" : "BSApplication",
+	"mode" : "append",
+	"function" : "submit",
+	"id" : "BSDialogApply_Date",
+	"formId" : "DateForm",
+	"success" : function() 
+	  { 
+	    $("#BSDialogApply_Date").dialog("close");
+	    $("#BSDialogInfo_TimeDate").dialog("close"); 
+	  }
+    } ); 
+}
+
+</script>

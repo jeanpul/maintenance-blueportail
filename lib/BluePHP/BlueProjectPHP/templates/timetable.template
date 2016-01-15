@@ -1,0 +1,7 @@
+<div class="TimeTable" id="<?php echo $this->getId(); ?>">
+<h3>Working time activity for <?php echo $this->params["cir"]; ?></h3>
+<?php
+$tab = $this->getTimeTable();
+echo $tab->toString();
+?>
+</div>

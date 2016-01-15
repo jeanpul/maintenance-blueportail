@@ -1,0 +1,9 @@
+<?php
+
+$content = $this->getContent();
+if(!is_array($this->getContent()))
+  {
+    echo $content;
+  }
+
+?>

@@ -1,0 +1,70 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+
+$cname = $this->getClass();
+$idgraph = $cname . "Graph_" . $this->getId();
+$iddate = "DatePicker_" . $this->getId();
+$iddatealt = "DatePickerAlt_" . $this->getId();
+$params = $this->getPanel();
+$numId = $params["numId"];
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+$params = array_merge( array( "container" => $idgraph,
+			      "TimeStr" => strftime("%Y%m%d000000") 
+			      ), 
+		       $params );
+
+$jsonOptions = json_encode($params , JSON_NUMERIC_CHECK); 
+
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+<div class="Panel-top Panel-top-<?php echo $params["category"]; ?>">
+  <div class="Panel-title"><img src="/BlueSystem/styles/group_gauge.png"> Number of people</div>
+  <div class="Panel-namearea"><?php echo $params["label"]; ?></div>
+<?php
+  if($params["withCalendar"])
+    {
+?>
+<div class="Panel-datepicker">
+<input id="<?php echo $iddate; ?>" value="<?php echo strftime('%m/%d/%Y'); ?>"/>
+<input id="<?php echo $iddatealt; ?>" type="hidden" value="<?php echo $params['TimeStr']; ?>"/>
+</div>
+<?php
+    }
+?>
+</div>
+
+<div class="Panel-graph">
+<div id="<?php echo $idgraph; ?>" class="graph" />
+</div>
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready( function() {
+      Dashboards.include_once("<?php echo $jsName; ?>", function() {
+	  OccupancyGraphDay.Init(<?php echo $jsonOptions; ?>);
+<?php
+  if($params["withCalendar"])
+    {
+?>
+	  $("#<?php echo $iddate; ?>").datepicker({
+	        'altField': "#<?php echo $iddatealt; ?>",
+		'altFormat': 'yymmdd000000' 
+		});
+	  $("#<?php echo $iddate; ?>").change(function() { 
+	      var options = <?php echo $jsonOptions; ?>;
+	      options.TimeStr = $("#<?php echo $iddatealt; ?>").val();
+	      OccupancyGraphDay.Init(options);
+	    });
+<?php
+    }
+?>
+	});
+    });
+
+</script>

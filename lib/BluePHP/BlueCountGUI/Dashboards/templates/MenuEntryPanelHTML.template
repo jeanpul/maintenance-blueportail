@@ -1,0 +1,21 @@
+<?php
+
+$jsName = $this->getJSRef();
+$cssName = $this->getCSSRef();
+
+$params = $this->getPanel();
+$label = $params["label"];
+$icon = $params["icon"];
+$category = $params["category"];
+$href = $params["href"];
+$idpanel = $this->getStyleId();
+$classes = $this->getStyleClasses();
+
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssName; ?>"></link>
+<div id="<?php echo $idpanel; ?>" class="<?php echo $classes; ?>">
+<div class="MenuEntryPanel">
+<a id="<?php echo $icon; ?>" href="<?php echo $href; ?>"><?php echo $label; ?></a>
+</div>
+</div>
+

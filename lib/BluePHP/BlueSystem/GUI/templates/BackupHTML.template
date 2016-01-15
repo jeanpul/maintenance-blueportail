@@ -1,0 +1,62 @@
+<div class="DashBoardsPanel">
+<div class="Panel Panel-two Panel-hcenter Panel-blue">
+
+<?php
+
+include_once("BluePHP/Utils/Input.inc");
+
+$params = array_merge( array( "step" => 0 ), 
+		       $this->getParams() );
+
+if($params["step"] == 0)
+  {
+    $str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+      'echo $(BackupRestore_processModuleList BlueSystem Backup_HTML_inputModuleLine)' . "\n";
+?>
+
+<div class="Panel-namearea">Select elements to save into the backup</div>
+<form id="BackupForm" action="/BlueSystem/Backup.php" method="GET">
+<?php echo exec($str); ?>
+<input type="hidden" name="step" value="1" />
+</form>
+<button class="btn" onclick="BlueSystem.ModuleFormApply({'id':'Backup','class':'BackupHTML'});">Prepare export</button>
+
+<?php
+  }
+else if($params["step"] == 1)
+  {
+    $str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+      "Backup_startPrepareExport\n";
+    exec($str);
+
+    $strParams = "";
+    foreach($params as $k => $v)
+      {
+	$strParams .= "QS_" . $k . "=" . $v . "\n";
+      }
+
+    $str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+      $strParams . "\n" . 
+      'echo $(BackupRestore_processModuleList BlueSystem Backup_HTML_selectedModuleLine)' . "\n";
+    $exportedList = exec($str);
+
+    $str = "source /etc/BEV/scripts/BlueSystem/BackupRestore.inc\n" . 
+      $strParams . "\n" . 
+      "BackupRestore_loadNeededFunctionForModule BlueSystem\n" . 
+      "BackupRestore_processModuleList BlueSystem BackupRestore_backupOfModuleLine\n" . 
+      "Backup_endPrepareExport\n";
+
+    exec($str);
+
+?>
+<h3>List of elements contained into the backup</h3>
+<?php echo $exportedList; ?>
+<h3>Click on the link below to download the backup</h3>
+<a style="color: black;" href="/BackupSettings.tgz">BackupSettings.tgz</a>
+<?php
+  }
+    
+?>
+
+</div>
+</div>

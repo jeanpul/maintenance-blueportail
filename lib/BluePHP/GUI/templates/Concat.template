@@ -1,0 +1,5 @@
+<?php foreach($this->getElts() as $elt): ?>
+<?php $elt->render(); ?>
+<?php endforeach; ?>
+
+

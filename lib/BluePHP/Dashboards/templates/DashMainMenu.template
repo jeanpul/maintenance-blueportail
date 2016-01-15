@@ -1,0 +1,102 @@
+<?php
+
+include_once("BluePHP/BlueCountGUI/Dashboards/Dashboards.inc");
+include_once("BluePHP/BlueSystem/GUI/BSApplication.inc");
+
+$params = $this->getParams();
+
+$createEvent = BS_eventRender( "BlueCountGUI/Dashboards.DashboardsInterface",
+"action=create" );
+    
+
+if(isset($params["dashboard"]) and !is_null($params["dashboard"]) and $params["dashboard"] != "null")
+  {
+    $module = new Dashboards();
+    $dashboard = $module->getEntry( array( "id" => $params["dashboard"] ) );
+    $dashName = $params["dashboard"];
+    
+    $settingsEvent = BS_eventRender( "BlueCountGUI/Dashboards.DashboardsInterface",
+				     "action=edit&id=" . $params["dashboard"] );
+    
+    $lastPanel = $module->getLastPosPanel( array( "idd" => $params["dashboard"] ) );
+    $nextPos = 0;
+    if($lastPanel)
+      {
+	$nextPos = $lastPanel[0]["position"] + 1;
+      }
+    
+    $addWidgetEvent = BS_eventRender( "BTopLocalServer.DashboardEditor",
+				      "action=create&idd=" . $params["dashboard"] . "&position=" . $nextPos );
+    
+    $deleteEvent = BS_eventRenderWithParams( "BlueCountGUI/Dashboards.DashboardsInterface", 
+					     "",
+					     "action=delete&id=" . $params["dashboard"],
+					     "delEntrySubmission" );
+?>
+
+<ul>
+  <li>
+  <a href="#">Dashboards <?php echo $dashboard["label"]; ?></a>
+    <ul>
+
+<?php
+  
+$dashList = $module->getEntriesFromModule( array( "module" => "Dashboards" ) );
+$lis = "";
+foreach($dashList as $k => $v)
+  {
+    $disabled = "";
+    $onClick = "";
+    if($v["id"] == $params["dashboard"])
+      {
+	$lis .= "<li><a href=\"#\" class=\"selected\">" . $v["label"] . "</a></li>\n";
+      }
+    else
+      {
+	$onClick = "DashEditor.switchToDashboard({'id':" . $v["id"] . "});";
+	$lis .= "<li>" . "<a href=\"#\" onClick=\"$onClick\">" . $v["label"] . "</a>" . "</li>\n";
+      }
+  }
+
+echo $lis;
+
+?>
+      <li><a href="#" onClick='<?php echo $createEvent; ?>'>Create a new Dasboard</a></li>
+  <li><a href="#" onClick='<?php echo $deleteEvent; ?>'>Delete Dashboard <?php echo $dashboard["label"]; ?></a>
+    </ul>
+  </li>
+  <li><a href="#" onClick='<?php echo $settingsEvent; ?>'>Settings</a></li>
+  <li><a href="#" onClick='<?php echo $addWidgetEvent; ?>'>Add Widget</a></li>
+  <li><a href="/Dashboards/index.php?id=<?php echo $params["dashboard"]; ?>" target="_blank" rel="nofollow">Visualize</a></li>
+</ul>
+
+<?php
+
+    }
+else
+  {
+?>
+
+<ul>
+  <li><a href="#" onClick='<?php echo $createEvent; ?>'>Create a new Dasboard</a></li>
+  <li class="ui-state-disabled"><a href="#">Settings</a></li>
+  <li class="ui-state-disabled"><a href="#">Add Widget</a></li>
+  <li class="ui-state-disabled"><a href="#">Visualize</a></li>
+</ul>
+
+<?php
+  }
+?>
+
+<script>
+$(document).ready( function() {
+    ddsmoothmenu.init( {
+	mainmenuid: "mainMenu",
+	orientation: 'h',
+	//	  method: 'toggle',
+	classname: 'ddsmoothmenu',
+	contentsource: 'markup' });
+});
+</script>
+
+

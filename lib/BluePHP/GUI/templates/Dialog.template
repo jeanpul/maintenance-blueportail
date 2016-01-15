@@ -1,0 +1,9 @@
+<div class="Dialog" id="<?php echo $this->getId(); ?>" title="<?php echo $this->getTitle(); ?>">
+<div class="Header">
+<?php echo $this->getHeader(); ?>
+</div>
+<div class="Content">
+<?php echo $this->getContent(); ?>
+</div>
+</div>
+

@@ -1,0 +1,19 @@
+<div class="main-title">
+  <h1>Airport Open Data</h1>
+  <img src="/AOD/styles/main-logo.png" alt="" />
+</div>
+
+<div class="three-section">
+  <div class="first-section">
+    <h2>What is AOD?</h2>
+    <p>Airport Open Data is an open database created by Blue Eye Video. The idea is to collect and share interesting data about airport and airlines such as the wait time in queues. Then we provide a fast API for you to get the data you need.</p>
+  </div>
+  <div class="second-section">
+    <h2>Want to get information from AOP?</h2>
+    <p>You are interested by getting information from our database? Ask us for access and learn more about our API <a href="mailto:get@aod.aero">here.</a></p>
+  </div>
+  <div class="third-section">
+    <h2>Want to provide data to AOP?</h2>
+    <p>You want to share your information to feed our database? Ask us for access and learn more about our API <a href="mailto:provides@aod.aero">here.</a></p>
+  </div>
+</div>
