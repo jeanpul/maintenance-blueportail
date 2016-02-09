@@ -49,7 +49,7 @@ class FlowCountingProcessing extends ModuleProcessing
 			  " from Flows, Calendars, FlowCountingProcessing, CountersAssoc, CountersAvailable where clientId='$ref'" .
 			  " and CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
 			  " Flows.id=FlowCountingProcessing.flow and FlowCountingProcessing.calendar=Calendars.id" . 
-			  " order by fcpId");
+			  " group by fcpId order by fcpId");
   }
 
   public function getIndicator($cpId) 

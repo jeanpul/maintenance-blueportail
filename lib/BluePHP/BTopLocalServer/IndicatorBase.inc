@@ -31,6 +31,19 @@ class IndicatorBase
     return $data;
   }
 
+  function getValuesDay($idp, $timestamp)
+  {
+    $data = null;
+    $dataDB = $this->clang->accessDataDB("day", $timestamp);
+    if($dataDB !== FALSE)
+      {
+	$query = "select * from " . $this->tblName . "_DAY where id=$idp and " . 
+	  "strftime('%Y%m%d', start) = '" . strftime("%Y%m%d", $timestamp) . "'";
+	$data = $this->clang->queryDataDB($query);
+      }
+    return $data;    
+  }
+
   function deleteValues($idp, $timestamp, $hstart, $hend)
   {
     $dataDB = $this->clang->accessDataDB("minute", $timestamp);

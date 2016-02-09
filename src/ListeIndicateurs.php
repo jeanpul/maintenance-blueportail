@@ -39,10 +39,10 @@ try {
 
   echo "Indicateur FlowCountingProcessing\n" .
     "---------------------------------\n";
-  echo sprintf("%16s%16s%16s%16s%16s\n", "Identifiant", "Nom Porte", "Sens", "Id Cal", "Nom Cal");
+  echo sprintf("%16s%16s%16s%16s\n", "Identifiant", "Nom Porte", "Id Cal", "Nom Cal");
   foreach($fcp->getFlowsFromCounter($ref) as $v)
     {
-      echo sprintf("%16s%16s%16s%16s%16s\n", $v["fcpId"], $v["fcpName"], $v["sens"], $v["calId"], $v["calName"]);
+      echo sprintf("%16s%16s%16s%16s\n", $v["fcpId"], $v["fcpName"], $v["calId"], $v["calName"]);
     }
 
   include_once("BluePHP/BTopLocalServer/ZoneCounting.inc");
