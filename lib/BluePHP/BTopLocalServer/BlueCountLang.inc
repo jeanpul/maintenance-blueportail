@@ -97,7 +97,7 @@ class BlueCountLang
 	  $this->dataDB = 0;
 	}
 
-      $dbname=DATADBPATH;
+      $dbname=BTOP_SERVER_DBPATH; // DATADBPATH;
       if($step == "day" || $step == "month" || $step == "year")
 	{
 	  $dbname .= "/BCL.db";
@@ -112,10 +112,18 @@ class BlueCountLang
 	  $this->dataDB = new DBConnect(DATADBTYPE, DATADBHOST, $dbname,
 					DATADBUSER, DATADBPASSWD);
 	  $this->dataDB->connectToDB();
-	  return true;
+	  return $this->dataDB;
 	}
       else return false;
     }
+
+  function queryDataDB($query)
+  {
+    $result = $this->dataDB->query($query);
+    $data = $this->get_associative_array($result);
+    $result->freeResult();
+    return $data;
+  }
 
   /**
    * \brief call any method of the BlueCountLang class through its symbolic name

@@ -42,13 +42,18 @@ class FlowCountingProcessing extends ModuleProcessing
     parent::QueryNoReturn("update FlowCountingProcessing set calendar=$calId where id=$fcpId");
   }
 
-  function getFlowsFromCounter($ref)
+  public function getFlowsFromCounter($ref)
   {
     return parent::Select("FlowCountingProcessing.id as fcpId, Flows.name as fcpName, Calendars.name as calName, Calendars.id as calId, CountersAssoc.sens as sens" . 
 			  " from Flows, Calendars, FlowCountingProcessing, CountersAssoc, CountersAvailable where clientId='$ref'" .
 			  " and CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
 			  " Flows.id=FlowCountingProcessing.flow and FlowCountingProcessing.calendar=Calendars.id" . 
 			  " order by fcpId");
+  }
+
+  public function getIndicator() {
+    include_once("indicators/FlowCounting_flow.inc");
+    return new FlowCounting_flow($this->clang);
   }
 }
 
