@@ -125,6 +125,12 @@ class BlueCountLang
     return $data;
   }
 
+  function queryNoReturnDataDB($query)
+  {
+    $result = $this->dataDB->query($query);
+    $result->freeResult();
+  }
+
   /**
    * \brief call any method of the BlueCountLang class through its symbolic name
    *

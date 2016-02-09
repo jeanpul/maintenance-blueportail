@@ -71,11 +71,18 @@ class ZoneCounting extends ModuleProcessing
 
   function getZonesFromCounter($ref)
   {
-    return parent::Select("ZoneCountingProcessing.id as zcpId, Zones.name as zcpName, Calendars.name as calName, Calendars.id as calId" . 
+    return parent::Select("ZoneCountingProcessing.id as cpId, " .
+			  "ZoneCountingProcessing.id as zcpId, Zones.name as zcpName, Calendars.name as calName, Calendars.id as calId" . 
 			  " from Zones, Flows, Calendars, ZoneCountingProcessing, CountersAssoc, CountersAvailable where clientId='$ref'" .
 			  " and CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
 			  " (Zones.id=Flows.zone1 or Zones.id=Flows.zone2) and ZoneCountingProcessing.zone=Zones.id and ZoneCountingProcessing.calendar=Calendars.id" . 
 			  " group by zcpId order by zcpId");
+  }
+
+  public function getIndicator($cpId)
+  {
+    include_once("indicators/ZoneCounting_flow.inc");
+    return new ZoneCounting_flow($this->clang);
   }
 }
 
