@@ -23,24 +23,22 @@ class DBDataStorage implements DataAccessor
    * \todo what's this for ?
    */
   var $enquote = false;
-  /**
-   * module parameters
-   */
-  var $params = array( "name" => null,
-		       "keyname" => null );
+
+  var $params = false;
 
   /**
-   * it's possible to share the DB con by passing
-   * a ModuleProcessing by parameter with an existing connection
-   * \param $params module parameters such as name, the keyname
+   * \param $conParams module parameters such as dbname, user passwd
    * \param $sharedCon share the DB connection
    */
   protected function __construct($params, $sharedCon = null)
   {
-    $this->setParams($params);
     if($sharedCon)
       {
 	$this->setCon($sharedCon->getCon());
+      }
+    else
+      {
+	$this->setConParams($params);
       }
   }
 

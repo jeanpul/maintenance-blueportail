@@ -169,6 +169,28 @@ class BluePortailLang
       return $this->get_config_array($query);
     }
 
+  function addVirtualClient($params)
+  {
+    $query = "insert into Client(id, name, email, access) values(\"" . $params["clientId"] . "\"," .
+      "\"" . $params["clientName"] . "\"," .
+      "\"" . $params["email"] . "\"," . 
+      $params["access"] . ")";
+    $result = $this->configDB->query($query);
+    $result->freeResult();    
+
+    $query = "insert into ConfigClientAssoc(name, clientId, value) values(\"bluecountserver\"" . 
+      ",\"" . $params["clientId"] . "\",\"" . $params["server"] . "\")";
+    $result = $this->configDB->query($query);
+    $result->freeResult();
+  }
+
+  function delVirtualClient($params)
+  {
+    $query = "delete from Client where id=\"" . $params["clientId"] . "\"";
+    $result = $this->configDB->query($query);
+    $result->freeResult();
+  }
+
   /**
    * \brief Create a new client.
    *
@@ -199,17 +221,7 @@ class BluePortailLang
 	  $params["clientId"] = substr($output[0], 0, 16);	  
 	}
 
-      $query = "insert into Client(id, name, email, access) values(\"" . $params["clientId"] . "\"," .
-	"\"" . $params["clientName"] . "\"," .
-	"\"" . $params["email"] . "\"," . 
-	$params["access"] . ")";
-      $result = $this->configDB->query($query);
-      $result->freeResult();
-
-      $query = "insert into ConfigClientAssoc(name, clientId, value) values(\"bluecountserver\"" . 
-	",\"" . $params["clientId"] . "\",\"" . $params["server"] . "\")";
-      $result = $this->configDB->query($query);
-      $result->freeResult();
+      $this->addVirtualClient($params);
 
       // add the link between the client and the host for the access to the data via the proxy
       exec(SCRIPTSPATH . "/clientManageClientDest.sh " . CLIENTHOSTFILE . " add " . $params["clientId"] . " " . $params["server"]);
@@ -217,7 +229,7 @@ class BluePortailLang
       // create the client data using the remote BluePortailLang
       if(!file_get_contents($this->callRemoteFunc($params["server"], "processClientCreateData", $params)))
 	{
-	  syslog(LOG_ERROR, "BluePortailAdmin:processClientInsert cannot call processClientCreateData");
+	  syslog(LOG_ERR, "BluePortailAdmin:processClientInsert cannot call processClientCreateData");
 	}
 
       return array( $params );
@@ -228,9 +240,7 @@ class BluePortailLang
    */
   function processClientDelete($params)
     {
-      $query = "delete from Client where id=\"" . $params["clientId"] . "\"";
-      $result = $this->configDB->query($query);
-      $result->freeResult();
+      $this->delVirtualClient($params);
 
       exec(SCRIPTSPATH . "/clientManageClientDest.sh " . CLIENTHOSTFILE . " del " . $params["clientId"]);
 
@@ -239,7 +249,7 @@ class BluePortailLang
       // remove the client data using the remote BluePortailLang
       if(!file_get_contents($this->callRemoteFunc($params["server"], "processClientDeleteData", $params)))
 	{
-	  syslog(LOG_ERROR, "BluePortailAdmin:processClientInsert cannot call processClientDeleteData");
+	  syslog(LOG_ERR, "BluePortailAdmin:processClientInsert cannot call processClientDeleteData");
 	}    
 
       return array( array( $params["clientId"] ) );
@@ -514,6 +524,29 @@ class BluePortailLang
 
       return array( $params );
     }
+
+  function cloneBlueCountClientAssoc($params)
+  {
+    // delete previous client components
+    $this->deleteBlueCountClientAssoc(array( "clientId" => $params["dstClientId"] ));
+
+    // insert new clients
+    $query = "insert into BlueCountClientAssoc select bc.bluecountId, \"" . 
+      $params["dstClientId"] . "\", 1 from BlueCountClientAssoc as bc where clientId=\"" . 
+      $params["srcClientId"] . "\"";
+    $result = $this->configDB->query($query);
+    $result->freeResult();
+    return array( $params );
+  }
+
+  function deleteBlueCountClientAssoc($params)
+  {
+    // delete previous client components
+    $query = "delete from BlueCountClientAssoc where clientId=\"" . $params["clientId"] . "\"";
+    $result = $this->configDB->query($query);
+    $result->freeResult();
+    return array( $params );
+  }
 
   /**
    * \brief Returns the list of BlueCount Client connections
