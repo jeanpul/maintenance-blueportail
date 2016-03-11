@@ -1,6 +1,6 @@
 {
   "name": "maintenance-blueportail",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Outils de maintenance PHP pour BluePortail",
   "main": "src/Config.inc",
   "scripts": {
