@@ -4,10 +4,9 @@
  * Displays all errors and warnings
  */
 //ini_set('display_errors', true);
-
 /**
- * Charset est maintenant lié à l'application
- * et n'est plus définit dans Language.inc du BluePHP
+ * Charset est maintenant liÃ© Ã  l'application
+ * et n'est plus dÃ©finit dans Language.inc du BluePHP
  */
 if(!defined("LANG_CHARSET"))
   {

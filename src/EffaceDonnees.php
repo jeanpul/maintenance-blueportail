@@ -7,16 +7,16 @@ function deleteCountingData($dates, $period, $cpList, $fcp, $excluded = null)
   for($i = 0; $i < count($dates); $i++)
     {
       for($j = 0; $j < count($cpList); $j++)
-	{
-	  if(($excluded === null) or !in_array($cpList[$j]["cpId"], $excluded))
-	    {
-	      $indicator = $fcp->getIndicator($cpList[$j]["cpId"]);
-	      $indicator->deleteValues($cpList[$j]["cpId"],
-				       mkTimeFromString($dates[$i]),
-				       $period["hstart"],
-				       $period["hend"]);
-	    }
-	}
+          {
+              if(($excluded === null) or !in_array($cpList[$j]["cpId"], $excluded))
+                  {
+                      $indicator = $fcp->getIndicator($cpList[$j]["cpId"]);
+                      $indicator->deleteValues($cpList[$j]["cpId"],
+                      mkTimeFromString($dates[$i]),
+                      $period["hstart"],
+                      $period["hend"]);
+                  }
+          }
     }
 }
 
@@ -25,12 +25,14 @@ try {
   if(count($argv) < 6)
     {
       echo "Erreur:\tArguments manquants\n" .
-	"Usage:\tEffaceDonnees.php ref dateDebut dateFin heureDebut heureFin\n" .
-	"\tref\t\tIdentifiant du capteur voir ListeIdentifiantCapteur.php\n" .
-	"\tdateDebut\tDate du début de la période au format 'YYYYMMDD'\n" .
-	"\tdateFin\t\tDate de fin de la période au format 'YYYYMMDD'\n" .
-	"\theureDebut\tHeure de début de la période au format HH:mm\n" .
-	"\theureFin\tHeure de fin de la période au format HH:mm\n";
+          "Usage:\tEffaceDonnees.php ref dateDebut dateFin heureDebut heureFin\n" .
+          "\tEfface les données FlowCountingProcessing et ZoneCountingProcessing pour " .
+          "l'intervalle [ dateDebut heureDebut ; dateFin heureFin [\n" .
+          "\tref\t\tIdentifiant du capteur voir ListeIdentifiantCapteur.php\n" .
+          "\tdateDebut\tDate du début de la période au format 'YYYYMMDD'\n" .
+          "\tdateFin\t\tDate de fin de la période au format 'YYYYMMDD'\n" .
+          "\theureDebut\tHeure de début de la période au format HHmm\n" .
+          "\theureFin\tHeure de fin de la période au format HHmm\n";
       exit(1);
     }
 

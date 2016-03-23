@@ -22,6 +22,17 @@ class Tasks extends ModuleProcessing
   {
     return parent::Select("* from tasks_prev where isProcessed=0");
   }
+
+  public function deleteTasks()
+  {
+      parent::QueryNoReturn("delete * from tasks");
+  }
+  
+  public function addTaskDay($type, $date, $id)
+  {
+      $query = "insert into tasks (str) values('$type DAY $id $date')";
+      parent::QueryNoReturn($query);
+  }
 }
 
 ?>
