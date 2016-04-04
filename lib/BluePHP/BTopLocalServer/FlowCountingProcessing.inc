@@ -51,7 +51,7 @@ class FlowCountingProcessing extends ModuleProcessing
 			  " Flows.id=FlowCountingProcessing.flow and FlowCountingProcessing.calendar=Calendars.id" . 
 			  " group by fcpId order by fcpId");
   }
-
+  
   public function getIndicator($cpId) 
   {
     include_once("indicators/FlowCounting_flow.inc");
