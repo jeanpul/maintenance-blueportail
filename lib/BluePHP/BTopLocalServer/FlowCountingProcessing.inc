@@ -45,7 +45,9 @@ class FlowCountingProcessing extends ModuleProcessing
   public function getFlowsFromCounter($ref)
   {
     return parent::Select("FlowCountingProcessing.id as cpId, " .
-			  "FlowCountingProcessing.id as fcpId, Flows.name as fcpName, Calendars.name as calName, Calendars.id as calId, CountersAssoc.sens as sens" . 
+			  "FlowCountingProcessing.id as fcpId, Flows.name as fcpName, Flows.name as cpName, " .
+              "Flows.zone1, Flows.zone2, Calendars.name as calName," .
+              " Calendars.id as calId, CountersAssoc.sens as sens" . 
 			  " from Flows, Calendars, FlowCountingProcessing, CountersAssoc, CountersAvailable where clientId='$ref'" .
 			  " and CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
 			  " Flows.id=FlowCountingProcessing.flow and FlowCountingProcessing.calendar=Calendars.id" . 

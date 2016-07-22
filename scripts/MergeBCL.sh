@@ -18,7 +18,7 @@ merge_Databases()
     local src=$1
     local date=$2
 
-    echo "-- merge data from $src for day $date"
+    echo "-- merge data from $src for day $date" > /dev/stderr
 
     cat <<EOF
 attach database '$src' as src;

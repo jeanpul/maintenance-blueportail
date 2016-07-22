@@ -25,12 +25,31 @@ class IndicatorBase
       {
 	$query = "select * from " . $this->tblName . "_MINUTE where id=$idp and " . 
 	  "strftime('%H%M', start) >= '$hstart' and " . 
-	  "strftime('%H%M', start) < '$hend'";
+	  "strftime('%H%M', start) < '$hend' order by start asc";
 	$data = $this->clang->queryDataDB($query);
       }
     return $data;
   }
 
+  function getValuesHour($idp, $timestamp, $hstart, $hend)
+  {
+      $data = null;
+      $dataDB = $this->clang->accessDataDB("minute", $timestamp);
+      if($dataDB !== FALSE)
+          {
+              $query = "select id, sum(value0) as value0, " .
+                  "sum(value1) as value1, min(start) as start, " .
+                  "sum(nbcumul0) as nbcumul0, sum(nbexpected0) as nbexpected0, " .
+                  "sum(nbcumul1) as nbcumul1, sum(nbexpected1) as nbexpected1, " .
+                  "max(start) as end " . "from " . $this->tblName . "_MINUTE where id=$idp and " . 
+                  "strftime('%H', start) >= '$hstart' and " . 
+                  "strftime('%H', start) < '$hend' " .
+                  "group by id, strftime('%Y%m%d%H', start) order by start asc";
+              $data = $this->clang->queryDataDB($query);
+          }
+      return $data;
+  }
+  
   function getValuesDay($idp, $timestamp)
   {
     $data = null;

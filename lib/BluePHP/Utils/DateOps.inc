@@ -262,7 +262,7 @@ function getTimeSlicesAsStrings($timestart, $timeend, $timestep)
   while(getTimeSubFromString($timeend, $timestart) > 0)
     {
       $res[] = $timestart;
-      $timestart = strftime("%Y%m%d%H%M%S", addTime(mkTimeFromString($timestart), $timestep));
+      $timestart = strftime("%Y%m%d%H%M%S", addTime(mktimeFromString($timestart), $timestep));
     }
   return $res;
 }

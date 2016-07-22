@@ -83,7 +83,7 @@ try {
   include_once("BluePHP/BTopLocalServer/ZoneCounting.inc");
   $zcp = new ZoneCounting();
   $zcpList = $zcp->getZonesFromCounter($ref);
-  
+
   deleteCountingData($res, $period, $zcpList, $zcp, $zcpExcluded[$clientId]);      
 }
 catch(Exception $e)
