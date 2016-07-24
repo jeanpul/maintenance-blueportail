@@ -24,7 +24,7 @@ class FlowCountingProcessing extends ModuleProcessing
 
   function getFlows()
   {
-    return $this->clang->getFlows();
+      return $this->clang->getFlows(array("joinedCountingProcessing" => true));
   }
 
   function getFunctions()
@@ -42,15 +42,6 @@ class FlowCountingProcessing extends ModuleProcessing
     parent::QueryNoReturn("update FlowCountingProcessing set calendar=$calId where id=$fcpId");
   }
 
-  public function getAllFlows() {
-    return parent::Select("FlowCountingProcessing.id as cpId, " .
-			  "FlowCountingProcessing.id as fcpId, Flows.name as fcpName, Flows.name as cpName, " .
-              "Flows.zone1, Flows.zone2, Calendars.name as calName," .
-              " Calendars.id as calId from Flows, Calendars, FlowCountingProcessing where" .
-			  " Flows.id=FlowCountingProcessing.flow and FlowCountingProcessing.calendar=Calendars.id" . 
-			  " group by fcpId order by fcpId");      
-  }
-  
   public function getFlowsFromCounter($ref)
   {
     return parent::Select("FlowCountingProcessing.id as cpId, " .

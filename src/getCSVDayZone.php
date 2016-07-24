@@ -5,19 +5,17 @@ include_once("Config.inc");
 function showCountingData($dates, $cpList, $fcp, $idOut, $excluded = null) {
     $str = "";
     for($i = 0; $i < count($dates); $i++) {
-        for($j = 0; $j < count($cpList); $j++) {
-            if(($excluded === null) or !in_array($cpList[$j]["cpId"], $excluded)) {
+        foreach($cpList as $cp) {
+            $cp["id"] = intval($cp["id"]);
+            $cp["idp"] = intval($cp["idp"]);
+            if(($excluded === null) or !in_array($cp["id"], $excluded)) {
                 $time = mktimeFromString($dates[$i]);
-                $indicator = $fcp->getIndicator($cpList[$j]["cpId"]);
-                $data = $indicator->getValuesDay($cpList[$j]["cpId"],
-                $time);
+                $indicator = $fcp->getIndicator($cp["idp"]);
+                $data = $indicator->getValuesDay($cp["idp"], $time);
                 if(is_array($data)) {
                     foreach($data as $v) {
-                        $in = "value0"; $out = "value1";
-                        if($cpList[$j]["zone2"] == $idOut) {
-                            $in = "value1"; $out = "value0";
-                        } 
-                        $str .= $cpList[$j]["cpName"] . ";" . strftime("%d/%m/%Y", $time) . ";" . $v[$in] . ";" . $v[$out] . "\n";
+                        $in = "value1"; $out = "value0";
+                        $str .= $cp["name"] . ";" . strftime("%d/%m/%Y", $time) . ";" . $v[$in] . ";" . $v[$out] . "\n";
                     }
                 }
             }
@@ -69,7 +67,7 @@ try {
 
   echo "Porte ; Date ; Entrees ; Sorties\n";
   $cp = new ZoneCounting();
-  $cpList = $cp->getAllZones();
+  $cpList = $cp->getZones();
   echo showCountingData($res, $cpList, $cp, 8, $zcpExcluded[$clientId]);
 }
 
