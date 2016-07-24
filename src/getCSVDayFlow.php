@@ -13,11 +13,10 @@ function showCountingData($dates, $cpList, $fcp, $idOut, $excluded = null) {
                 $time);
                 if(is_array($data)) {
                     foreach($data as $v) {
-                        $in = "value0"; $out = "value1";                        
-                        if( (($cpList[$j]["sens"] == 1) && ($cpList[$j]["zone2"] == $idOut)) ||
-                        (($cpList[$j]["sens"] == 2) && ($cpList[$j]["zone1"] == $idOut))) {
+                        $in = "value0"; $out = "value1";
+                        if($cpList[$j]["zone2"] == $idOut) {
                             $in = "value1"; $out = "value0";
-                        } 
+                        }
                         $str .= $cpList[$j]["cpName"] . ";" . strftime("%d/%m/%Y", $time) . ";" . $v[$in] . ";" . $v[$out] . "\n";
                     }
                 }
@@ -69,11 +68,9 @@ try {
   );
   
   echo "Porte ; Date ; Entrees ; Sorties\n";
-  foreach($refs as $ref) { 
-      $cp = new FlowCountingProcessing();
-      $cpList = $cp->getFlowsFromCounter($ref["bluecountId"]);
-      echo showCountingData($res, $cpList, $cp, 8);
-  } 
+  $cp = new FlowCountingProcessing();
+  $cpList = $cp->getAllFlows();
+  echo showCountingData($res, $cpList, $cp, 8);
 }
 catch(Exception $e) {
     echo "Exception reçue : ", $e->getMessage(), "\n";

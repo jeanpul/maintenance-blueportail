@@ -73,9 +73,8 @@ class ZoneCounting extends ModuleProcessing
   {
     return parent::Select("ZoneCountingProcessing.id as cpId, " .
 			  "ZoneCountingProcessing.id as zcpId, Zones.name as zcpName, Zones.name as cpName, " .
-              "Calendars.name as calName, Calendars.id as calId, Flows.zone1, Flows.zone2, CountersAssoc.sens as sens" . 
-			  " from Zones, Flows, Calendars, ZoneCountingProcessing, CountersAssoc, CountersAvailable where" .
-			  " CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
+              "Calendars.name as calName, Calendars.id as calId, Flows.zone1, Flows.zone2" . 
+			  " from Zones, Flows, Calendars, ZoneCountingProcessing where" .
 			  " (Zones.id=Flows.zone1 or Zones.id=Flows.zone2) and ZoneCountingProcessing.zone=Zones.id and ZoneCountingProcessing.calendar=Calendars.id" . 
 			  " group by zcpId order by zcpId");
   }  
@@ -84,9 +83,9 @@ class ZoneCounting extends ModuleProcessing
   {
     return parent::Select("ZoneCountingProcessing.id as cpId, " .
 			  "ZoneCountingProcessing.id as zcpId, Zones.name as zcpName, Zones.name as cpName, " .
-              "Calendars.name as calName, Calendars.id as calId, Flows.zone1, Flows.zone2, CountersAssoc.sens" . 
-			  " from Zones, Flows, Calendars, ZoneCountingProcessing, CountersAssoc, CountersAvailable where clientId='$ref'" .
-			  " and CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
+              "Calendars.name as calName, Calendars.id as calId, Flows.zone1, Flows.zone2" . 
+			  " from Zones, Flows, Calendars, ZoneCountingProcessing, CountersAssoc, CountersAvailable" .
+              " where clientId='$ref' and CountersAvailable.id=CountersAssoc.counter and CountersAssoc.flow=Flows.id and" .
 			  " (Zones.id=Flows.zone1 or Zones.id=Flows.zone2) and ZoneCountingProcessing.zone=Zones.id and ZoneCountingProcessing.calendar=Calendars.id" . 
 			  " group by zcpId order by zcpId");
   }
