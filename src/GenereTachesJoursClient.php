@@ -30,7 +30,7 @@ try {
           "Usage:\tGenereTachesJoursClient.php clientId dateDebut dateFin\n" .
           "\tAjoute les tâches par jour pour les données ZoneCountingProcessing et FlowCountingProcessing pour " .
           "l'intercalle [ dateDebut ; dataFin [\n" .
-          "\tref\t\tIdentifiant du client voir ListeClients.php\n" .
+          "\tclientId\t\tIdentifiant du client voir ListeClients.php\n" .
           "\tdateDebut\tDate du début de la période au format 'YYYYMMDD'\n" .
           "\tdateFin\t\tDate de fin de la période au format 'YYYYMMDD'\n";          
       exit(1);
